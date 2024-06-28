@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Slackey&family=Emblema+One&family=Gaegu&display=swap');
+
+.slackey {
+    font-family: "Slackey", sans-serif;
+}
+
+.gaegu {
+    font-family: "Gaegu", sans-serif;
+}
+
+body {
+    background-color: #FAEFD6;
+}
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0; /* Remove default margin */
+}
+
+
+.css-6ma7d6:hover {
+transform: scale(1.1);
+}
+.css-6ma7d6 {
+box-sizing: border-box;
+margin: 0px;
+width: 300px;
+min-width: 0px;
+display: flex;
+background: rgb(9, 175, 180);
+border-radius: 10px;
+flex-direction: column;
+-moz-box-pack: justify;
+justify-content: space-between;
+padding: 20px;
+position: relative;
+transform: rotate(4.22705deg);
+transition-duration: 0.5s;
+}
+* {
+box-sizing: border-box;
+}
+.css-1aty9dc {
+box-sizing: border-box;
+margin: 0;
+min-width: 0;
+display: -webkit-box;
+display: -webkit-flex;
+display: -ms-flexbox;
+display: flex;
+-webkit-flex-direction: column;
+-ms-flex-direction: column;
+flex-direction: column;
+}
+.css-1hn3wb5 {
+box-sizing: border-box;
+margin: 0;
+min-width: 0;
+display: -webkit-box;
+display: -webkit-flex;
+display: -ms-flexbox;
+display: flex;
+background: #FFEEC6;
+height: 250px;
+-webkit-box-pack: center;
+-ms-flex-pack: center;
+-webkit-justify-content: center;
+justify-content: center;
+-webkit-align-items: center;
+-webkit-box-align: center;
+-ms-flex-align: center;
+align-items: center;
+}
+.css-hso7i9 {
+height: auto;
+max-width: 280px;
+max-height: 250px;
+}
+.css-ydmcwf {
+box-sizing: border-box;
+margin: 0;
+margin-top: 0px;
+margin-bottom: 0px;
+min-width: 0;
+font-weight: 700;
+line-height: 1.125;
+margin-top: 16px;
+margin-bottom: 16px;
+letter-spacing: 0.009em;
+font-size: 32px;
+color: #FFEEC6;
+margin-bottom: 0;
+}
+.css-1nucw2u {
+font-family: "Gaegu", sans-serif;
+box-sizing: border-box;
+margin: 0;
+margin-top: 0px;
+min-width: 0;
+margin-top: 16px;
+font-size: 30px;
+font-weight: 400;
+letter-spacing: 0.009em;
+line-height: 1.25;
+color: #FFEEC6;
+}
+.css-1qi5pf0 {
+box-sizing: border-box;
+margin: 0;
+margin-bottom: 0px;
+min-width: 0;
+color: var(--theme-ui-colors-muted);
+font-weight: medium;
+letter-spacing: 0.009em;
+line-height: 1.375;
+color: #FFEEC6;
+margin-bottom: 8px;
+overflow-wrap: break-word;
+}
+.css-1aty9dc {
+box-sizing: border-box;
+margin: 0;
+min-width: 0;
+display: -webkit-box;
+display: -webkit-flex;
+display: -ms-flexbox;
+display: flex;
+-webkit-flex-direction: column;
+-ms-flex-direction: column;
+flex-direction: column;
+}
+.css-chkslf {
+box-sizing: border-box;
+margin: 0;
+margin-top: 0px;
+margin-bottom: 0px;
+min-width: 0;
+color: var(--theme-ui-colors-muted);
+font-weight: medium;
+letter-spacing: 0.009em;
+line-height: 1.375;
+color: #FFEEC6;
+margin-top: 0;
+margin-bottom: 8px;
+}
+.css-s86h58 {
+box-sizing: border-box;
+margin: 0;
+min-width: 0;
+display: -webkit-box;
+display: -webkit-flex;
+display: -ms-flexbox;
+display: flex;
+}
+.css-18rrdl {
+box-sizing: border-box;
+margin: 16px 0px;
+min-width: 0px;
+font-weight: 700;
+line-height: 1.125;
+letter-spacing: 0.009em;
+font-size: 32px;
+background: rgb(255, 140, 55);
+padding-left: 20px;
+padding-right: 20px;
+color: rgb(255, 238, 198);
+position: absolute;
+top: -10px;
+right: -12px;
+transform: rotate(8.75207deg);
+}
+.css-1ahzmgp {
+box-sizing: border-box;
+margin: 0;
+margin-top: 0px;
+margin-bottom: 0px;
+min-width: 0;
+font-weight: 700;
+line-height: 1.125;
+margin-top: 16px;
+margin-bottom: 16px;
+letter-spacing: 0.009em;
+font-size: 32px;
+position: absolute;
+bottom: -25px;
+right: -10px;
+color: #FFEEC6;
+}
+
+/* Ensure the progress bar container is centered and not affected by other elements */
+.progress-container {
+    width: 50%;
+    background-color: #09afb4;
+    border-radius: 8px;
+    margin: 20vh auto; /* Keeps center alignment */
+    position: relative; /* Adds a positioning context */
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #ee4076;
+    width: 0%; /* Initial width of the progress bar */
+    transition: width 0.4s ease-in-out; /* Smooth transition for width changes */
+}
+
+/* Align .thething to the right */
+.thething {
+    position: absolute; /* Adjust this based on your layout needs */
+    right: 10vw; /* Aligns to the right */
+    /* Ensure it's positioned within a relative container for proper alignment */
+}
