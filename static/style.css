@@ -10,13 +10,16 @@
 
 body {
     background-color: #FAEFD6;
+    
 }
 body {
-    display: flex;
-    justify-content: center;
+    text-align: center;
     align-items: center;
     height: 100vh;
-    margin: 0; /* Remove default margin */
+    margin: 0; 
+    font-family: "Gaegu", sans-serif;
+    max-height: 100vh;
+    overflow: hidden;
 }
 
 
@@ -202,12 +205,23 @@ color: #FFEEC6;
     height: 20px;
     background-color: #ee4076;
     width: 0%; /* Initial width of the progress bar */
-    transition: width 0.4s ease-in-out; /* Smooth transition for width changes */
+    transition: width 0.4s ease-in-out;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px; /* Smooth transition for width changes */
 }
 
 /* Align .thething to the right */
 .thething {
     position: absolute; /* Adjust this based on your layout needs */
-    right: 10vw; /* Aligns to the right */
+    right: 10vw;
+    transform: scale(0.7);
+    margin-top: -350px; /* Aligns to the right */
     /* Ensure it's positioned within a relative container for proper alignment */
+}
+
+.container{
+    margin-top: 200px;
+}
+.bottomhead{
+    margin-top: -50px;
 }

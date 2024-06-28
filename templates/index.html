@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-    <script>
-        function setProgress(percent) {
-            const progressBar = document.querySelector('.progress-bar');
-            progressBar.style.width = percent + '%';
-        }
-        </script>
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
-   
-   
-    <div class="progress-container">
-        <div class="progress-bar" style="width: 0%;"></div>
+    <div class="container">
+        <div class="tophead">
+            <h1>I currently have {{number}} tickets 🎟️</h1>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" style="width: {{percent}}%;"></div>
+            
+        </div>
+        <div class="bottomhead">
+            <h1>I still need {{remaining}} more hours UwU</h1>
+        </div>
     </div>
-   
    
     <div class="thething">
     <div id="recvsJVFthUTnozTO" class="css-6ma7d6">
@@ -58,6 +58,8 @@
             </div><span class="gaegu css-1hcuyr2">70<!-- --> <!-- -->tickets</span>
         </dialog>
     </div>
-</div>
+    </div>
+    
+
 </body>
 </html>
