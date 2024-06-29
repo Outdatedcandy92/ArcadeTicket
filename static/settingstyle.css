@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Slackey&family=Emblema+One&family=Gaegu&display=swap');
+
+.slackey {
+    font-family: "Slackey", sans-serif;
+}
+
+.gaegu {
+    font-family: "Gaegu", sans-serif;
+}
+body {
+    background-color: #FAEFD6;
+    font-family: "Gaegu", sans-serif;
+    
+}
+.urlbox{
+    resize: none;
+    width: 30vw;
+    border-radius: 3px;
+    border: none;
+    font-size: 16px;
+    background-color: #FF7684;
+}
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.form-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.subbtn{
+    margin-top: 30px;
+}
+p{
+    font-size: 25px;
+}
+.options {
+    font-family: "Gaegu", sans-serif;
+    width: 12vw;
+    height: 30px;
+    border-radius: 3px;
+    border: none;
+    font-size: 16px;
+    background-color: #FF7684;
+}
+select * {
+    font-family: "Gaegu", sans-serif;
+}

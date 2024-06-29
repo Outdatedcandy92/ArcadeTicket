@@ -225,3 +225,19 @@ color: #FFEEC6;
 .bottomhead{
     margin-top: -50px;
 }
+#setting {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+#gearButton {
+    background: transparent;
+    border: none;
+    font-size: 24px; /* Adjust size as needed */
+    cursor: pointer;
+}
+/* Optional: Add hover effect */
+#gearButton:hover {
+    color: #666; /* Change color on hover */
+}
