@@ -8,14 +8,17 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-url = os.getenv('URL')
+load_dotenv()
+shop_url = os.getenv('SHOP_URL')
+reward_name = os.getenv('REWARD_NAME')
+reward_subname = os.getenv('REWARD_SUBNAME')
+image = os.getenv('REWARD_IMAGE')
+reward_ticket = os.getenv('REWARD_TICKET')
 
-Reward_Name = 'Set Name'
-Ticket_Number = 'set number'
-Image_Url = 'set url'
 
+print(shop_url, reward_name, reward_subname, image, reward_ticket)
 def get_data():
-    response = requests.get(url)
+    response = requests.get(shop_url)
     soup = BeautifulSoup(response.text, 'html.parser')
     element = soup.find(class_='gaegu css-4j6pzy')
     if element:
@@ -23,31 +26,33 @@ def get_data():
         numbers = re.findall(r'\d+', element.text)
         if numbers:  # Check if any number was found
             print(numbers[0])  # Print the first number found
-            return numbers[0]
+            return int(numbers[0])
         else:
             print("No number found in the element.")
     else:
         print("Element not found.")
 
+def rem_tickets(number):
+    if int(reward_ticket) <= int(number):
+        return "You have enough tickets to redeem the reward🎉"
+    else:
+        return f"You need {int(reward_ticket) - int(number)} more tickets to redeem the reward"
+
+def percentage(number):
+    per = (int(number)/int(reward_ticket))*100
+    if per >= 100:
+        return 100
+    else:
+        return per
+
 @app.route('/')
 def home():
-    number = get_data()  # Assuming get_data() is defined elsewhere
-    remaining = 70 - int(number)
-    percent = int(number) / 70 * 100
-
-    return render_template('index.html', number=number, remaining=remaining, percent=percent)
-
-@app.route('/set', methods=['POST'])
-def set():
-    # Example of processing form data
-    shop_url = request.form['shopurl']
-    reward_name = request.form['rewardname']
-    ticket_number = request.form['rewardticket']
-    image_url = request.form['rewardimage']
-    # Process the data as needed...
-
-    # Redirect back to the home page
-    return redirect(url_for('home'))
+    number = get_data() 
+    remaining=rem_tickets(number)  
+    percent =  percentage(number)
+    reward_image = image
+    return render_template('index.html', number=number, remaining=remaining, percent=percent, reward_name=reward_name, reward_subname=reward_subname, reward_image=reward_image, reward_ticket=reward_ticket)
 
 
-app.run(host='0.0.0.0', port=8080)
+
+app.run(host='0.0.0.0', port=8080, debug=True)
