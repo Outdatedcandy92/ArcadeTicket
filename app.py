@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 app = Flask(__name__)
 
-load_dotenv()
+load_dotenv(override=True)
 shop_url = os.getenv('SHOP_URL')
 reward_name = os.getenv('REWARD_NAME')
 reward_subname = os.getenv('REWARD_SUBNAME')
@@ -47,11 +47,14 @@ def percentage(number):
 
 @app.route('/')
 def home():
-    number = get_data() 
-    remaining=rem_tickets(number)  
-    percent =  percentage(number)
-    reward_image = image
-    return render_template('index.html', number=number, remaining=remaining, percent=percent, reward_name=reward_name, reward_subname=reward_subname, reward_image=reward_image, reward_ticket=reward_ticket)
+    if not os.path.exists('.env'):
+        return render_template('error.html')
+    else:
+        number = get_data() 
+        remaining=rem_tickets(number)  
+        percent =  percentage(number)
+        reward_image = image
+        return render_template('index.html', number=number, remaining=remaining, percent=percent, reward_name=reward_name, reward_subname=reward_subname, reward_image=reward_image, reward_ticket=reward_ticket)
 
 
 
