@@ -1,4 +1,5 @@
 
+
 # Arcade Ticket Counter
 
 This webapp can be used to track your hour progress and see how close you are to your given hour goal
