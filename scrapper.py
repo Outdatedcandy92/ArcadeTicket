@@ -14,16 +14,19 @@ if response.status_code == 200:
 
     # Find all elements with class containing 'slackey'
     slackey_elements = soup.find_all(class_='slackey')
+
+    sub_text = soup.find_all(class_='css-1nucw2u')
     # Find all elements with class containing 'css-50nlwd'
     tick = soup.find_all(class_='css-50nlwd')
 
     img = soup.find_all(class_='css-hso7i9')
 
     # Print the text content of each 'slackey' element
-
     slacky = []
     tickets = []
     images = []
+    subtext = []
+
 
     for index, element in enumerate(slackey_elements):
         if index % 2 == 0:
@@ -38,18 +41,24 @@ if response.status_code == 200:
     for index, element in enumerate(img):
         print(element.get('src'))
         images.append(element.get('src'))
-    
+
+    for element in sub_text:
+        if element.text.strip():  # Check if the text is not empty
+            print(element.text.strip())
+            subtext.append(element.text.strip())
+
 
 
     rewards = []
 
-    min_length = min(len(slacky), len(tickets), len(images))
+    min_length = min(len(slacky), len(tickets), len(images),len(subtext))
 
     for i in range(min_length):
         reward = {
             "REWARD_NAME": slacky[i+1],
             "REWARD_TICKET": tickets[i],
-            "REWARD_IMAGE": images[i]
+            "REWARD_IMAGE": images[i],
+            "REWARD_SUBTEXT": subtext[i]
         }
         rewards.append(reward)
 
