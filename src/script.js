@@ -8,6 +8,8 @@ const ProgressBar = document.getElementById('ProgressBar');
 const HourCount = document.getElementById('HoursPerDay');
 
 
+const ROUND = 1;
+
 async function RewardDetails(REWARD) {
     try {
         const response = await fetch('./src/rewards.json');
@@ -86,6 +88,28 @@ function TicketLeft(INSTR){
 }
 
 
+
+
+const EndDate = "2024-8-31"
+
+function daysleft(remaning_tickets){
+    const date1 = new Date();
+    const date2 = new Date(EndDate);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    console.log(diffDays,'Days Left');
+
+    const tickperday = parseFloat((remaning_tickets / diffDays).toFixed(ROUND));
+
+    console.log(tickperday,'Hour per day');
+
+    return tickperday;
+
+}
+
+
+
+
 async function Display() {
     try {
         let Goal;
@@ -117,7 +141,7 @@ async function Display() {
             ProgressBar.style.width = `100%`;
             Tickets_Left.textContent = `You Have Completed The Goal 🎉`;
             HourCount.textContent = ``;
-            //ConfExpo();
+            ConfExpo();
         } else {
             console.log("Remaining tickets: not 0 or less");
             const hourcount = daysleft(RemaningTick);
@@ -140,31 +164,44 @@ async function Display() {
     
 }
 
-
-
-function daysleft(remaning_tickets){
-    const date1 = new Date();
-    const date2 = new Date("2024-8-31");
-    const diffTime = Math.abs(date2 - date1);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-    console.log(diffDays,'Days Left');
-
-    const tickperday = parseFloat((remaning_tickets / diffDays).toFixed(2));
-
-    console.log(tickperday,'Hour per day');
-
-    return tickperday;
-
+function ConfExpo(){
+    confetti({
+        particleCount: 400,
+        spread: 200,
+        origin: { y: 0.7 },
+    });
 }
 
-// function ConfExpo(){
-//     confetti({
-//         particleCount: 400,
-//         spread: 200,
-//         origin: { y: 0.7 },
-//       });
-// }
+function normaltext(){
+    //add stuff for when localstorage is empty
+    if (localStorage.getItem('Automatic') && localStorage.getItem('Reward')) {
+        Display();
+    } else {
+        ticketCountElement.innerText ='😔';
+        ImageElement.innerText ='😔';
+        NameElement.innerText ='😔';
+        SubElement.innerText ='😔';
+        Tickets_Left.innerText ='😔';
+        User_Ticker.innerText ='😔';
+        ProgressBar.innerText ='😔';
+        HourCount.innerText ='😔';
+
+        console.log('Automatic or Reward does not exist in localStorage');
+        Swal.fire({
+            title: 'Error!',
+            text: 'Items do not exist in local storage',
+            icon: 'error',
+            confirmButtonText: 'Settings'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = 'settings.html';
+            }
+          })
+    }
+}
 
 
 
-Display();
+normaltext();
+
+//Display();

@@ -329,9 +329,6 @@ color: #FFEEC6;
     padding: 10px;
 }
 
-.resetBtn{
-    position: absolute;
+#resetBtn{
     bottom: 0;
-    text-align: center;
-    align-items: center;
 }

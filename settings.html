@@ -6,17 +6,6 @@
     <title>Settings</title>
     <link rel="stylesheet" href="./src/style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        if (!localStorage.getItem('ShopUrl') || !localStorage.getItem('Reward')) {
-            console.log('ShopUrl or Reward does not exist in localStorage');
-            Swal.fire({
-                title: 'Error!',
-                text: 'Do you want to continue',
-                icon: 'error',
-                confirmButtonText: 'Cool'
-              })
-        }
-    </script>
 </head>
 <body>
     
@@ -75,9 +64,19 @@
         </div>
         
         <button type="submit" id="subbtn">Submit</button>
+        
     </form>
-    <a href="#" class="resetBtn">Having Issues? Click Here To Reset LocalStorage</a>
+    <a href="#"id="resetBtn" onclick="resetLocalStorage()">Having Issues? Reset LocalStorage</a>
     <script>
+        function resetLocalStorage() {
+            localStorage.clear();
+            Swal.fire({
+                title: 'LocalStorage Reset',
+                text: 'LocalStorage has been reset',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        }
         document.addEventListener('DOMContentLoaded', (event) => {
             const toggleButton = document.getElementById('toggleButton');
             const UserInput = document.getElementById('name'); // Assuming 'name' is the ID of your input element
