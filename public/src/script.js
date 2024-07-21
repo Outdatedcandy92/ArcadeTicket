@@ -34,6 +34,7 @@ async function RewardDetails(REWARD) {
         ImageElement.src = REWARD_IMAGE;
         NameElement.textContent = REWARD_NAME;
         SubElement.textContent = REWARD_SUBTEXT;
+
         return REWARD_TICKET;
 
 
@@ -59,6 +60,8 @@ async function UserTicket() {
         const element = htmlDocument.querySelector('.gaegu.css-3ha5y3');
         const innerText = element.innerText;
         console.log('Inner Text:', innerText);
+
+        return innerText;
         
     } catch (error) {
         console.error("Error fetching user tickets:", error);
@@ -67,15 +70,16 @@ async function UserTicket() {
 
 
 
-function TicketLeft(){
+function TicketLeft(INSTR){
 
-    const CURRENT_TICKET = Goal; // Set the value of CURRENT_TICKET
+    const CURRENT_TICKET = INSTR ; // Set the value of CURRENT_TICKET
     const regex = /\d+/; // Regular expression to match one or more digits
     const match = CURRENT_TICKET.match(regex); // Extract the number from the text
     const number = match ? parseInt(match[0]) : 0; // Convert the matched string to a number
     User_Ticker.textContent = `You Have ${number} 🎟️`;
     console.log('Ticket Left:',number);
-    return TicketLeft;
+
+    return number;
 
 
 }
@@ -83,10 +87,18 @@ function TicketLeft(){
 
 async function Display() {
     try {
-        const Goal = await RewardDetails(5);
-        const NoTicket = TicketLeft(Goal);
-        Tickets_Left.textContent = `You Need ${NoTicket} 🎟️`;
-        const bar_width = (NoTicket/Goal)*100;
+
+        const rewardIndex = localStorage.getItem('Reward');
+
+        
+        const Goal = await RewardDetails(rewardIndex);
+        
+        const User_ = await UserTicket();
+
+        const Numoftickets = await TicketLeft(User_);
+
+        Tickets_Left.textContent = `You Need ${Goal - Numoftickets} 🎟️`;
+        const bar_width = (Numoftickets/Goal)*100;
         console.log('barwid',bar_width);
         ProgressBar.style.width = `${bar_width}%`;
         
