@@ -7,7 +7,7 @@ const User_Ticker = document.getElementById('ticketCount');
 const ProgressBar = document.getElementById('ProgressBar');
 
 
-async function RewardDetails() {
+async function RewardDetails(REWARD) {
     try {
         const response = await fetch('./src/rewards.json');
         if (!response.ok) {
@@ -18,16 +18,17 @@ async function RewardDetails() {
         const data = JSON.parse(text); // Manually parse the text to JSON
 
 
-        const item_index = 6; // Set the value of item_index
+        const item_index = REWARD; // Set the value of item_index
         const item = data[item_index]; // Fetch the value at the specified index
 
 
-        const REWARD_NAME = item.REWARD_NAME;
-        const REWARD_TICKET = item.REWARD_TICKET;
-        const REWARD_IMAGE = item.REWARD_IMAGE;
-        const REWARD_SUBTEXT = item.REWARD_SUBTEXT;
+        const REWARD_NAME = item.name;
+        const REWARD_TICKET = item.hours;
+        const REWARD_IMAGE = item.imageURL;
+        const REWARD_DESCRIPTION = item.description;
+        const REWARD_SUBTEXT = item.smallName;
 
-        console.log(REWARD_NAME, REWARD_TICKET, REWARD_IMAGE,REWARD_SUBTEXT);
+        console.log(REWARD_NAME, REWARD_TICKET, REWARD_IMAGE,REWARD_SUBTEXT, REWARD_DESCRIPTION);
 
         ticketCountElement.textContent = `${REWARD_TICKET} 🎟️`;
         ImageElement.src = REWARD_IMAGE;
@@ -45,7 +46,10 @@ async function RewardDetails() {
 
 async function UserTicket() {
     try {
-        const response = await fetch('SOMETHING');
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const url = localStorage.getItem('ShopUrl');
+
+        const response = await fetch(proxyUrl + url);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -63,14 +67,13 @@ async function UserTicket() {
 
 
 
-function TicketLeft(Rew){
+function TicketLeft(){
 
-    const CURRENT_TICKET = 'Your current balance is 3 🎟️'; // Set the value of CURRENT_TICKET
+    const CURRENT_TICKET = Goal; // Set the value of CURRENT_TICKET
     const regex = /\d+/; // Regular expression to match one or more digits
     const match = CURRENT_TICKET.match(regex); // Extract the number from the text
     const number = match ? parseInt(match[0]) : 0; // Convert the matched string to a number
     User_Ticker.textContent = `You Have ${number} 🎟️`;
-    let TicketLeft = Rew - number;
     console.log('Ticket Left:',number);
     return TicketLeft;
 
@@ -80,10 +83,10 @@ function TicketLeft(Rew){
 
 async function Display() {
     try {
-        const something = await RewardDetails();
-        const NoTicket = TicketLeft(something);
+        const Goal = await RewardDetails(5);
+        const NoTicket = TicketLeft(Goal);
         Tickets_Left.textContent = `You Need ${NoTicket} 🎟️`;
-        const bar_width = (NoTicket/something)*100;
+        const bar_width = (NoTicket/Goal)*100;
         console.log('barwid',bar_width);
         ProgressBar.style.width = `${bar_width}%`;
         
