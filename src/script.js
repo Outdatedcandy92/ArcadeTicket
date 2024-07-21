@@ -48,10 +48,10 @@ async function RewardDetails(REWARD) {
 
 async function UserTicket() {
     try {
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const proxyUrl = 'https://corsproxy.io/?';
         const url = localStorage.getItem('ShopUrl');
 
-        const response = await fetch(url);
+        const response = await fetch(proxyUrl+url);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -98,13 +98,26 @@ async function Display() {
 
         const Numoftickets = await TicketLeft(User_);
 
-        const hourcount = daysleft(Goal-Numoftickets);
-        HourCount.textContent = `You Need ${hourcount} 🎟️ Per Day`;
+        const RemaningTick = Goal-Numoftickets;
+        console.log('Remaining Tickets:',RemaningTick);
+        if (RemaningTick <= 0) {
+            console.log("Remaining tickets: 0 or less");
+            ProgressBar.style.width = `100%`;
+            Tickets_Left.textContent = `You Have Completed The Goal 🎉`;
+            HourCount.textContent = ``;
+        } else {
+            console.log("Remaining tickets: not 0 or less");
+            const hourcount = daysleft(RemaningTick);
+            HourCount.textContent = `You Need ${hourcount} 🎟️ Per Day`;
+    
+            Tickets_Left.textContent = `You Need ${RemaningTick} 🎟️`;
+            const bar_width = (Numoftickets/Goal)*100;
+            console.log('barwidth',bar_width);
+            ProgressBar.style.width = `${bar_width}%`;
+        }
 
-        Tickets_Left.textContent = `You Need ${Goal - Numoftickets} 🎟️`;
-        const bar_width = (Numoftickets/Goal)*100;
-        console.log('barwid',bar_width);
-        ProgressBar.style.width = `${bar_width}%`;
+
+
         
         
     } catch (error) {
@@ -130,6 +143,6 @@ function daysleft(remaning_tickets){
 
 }
 
-//daysleft(59);
+
 
 Display();
