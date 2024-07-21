@@ -51,7 +51,7 @@ async function UserTicket() {
         const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
         const url = localStorage.getItem('ShopUrl');
 
-        const response = await fetch(proxyUrl + url);
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }

@@ -1,0 +1,10 @@
+- add a need help section in settings.html
+
+
+- in script.js add a if/else which checks if user has enough tickets
+
+        - If user has enough tickets display congrats
+
+        -Else show normal
+
+-FIX CORS
