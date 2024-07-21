@@ -88,17 +88,29 @@ function TicketLeft(INSTR){
 
 async function Display() {
     try {
+        let Goal;
+        let Numoftickets = 0;
 
         const rewardIndex = localStorage.getItem('Reward');
-
+        const Mode = localStorage.getItem('Automatic');
+        Goal = await RewardDetails(rewardIndex);
         
-        const Goal = await RewardDetails(rewardIndex);
-        
-        const User_ = await UserTicket();
-
-        const Numoftickets = await TicketLeft(User_);
+        if (Mode == 'true') {
+            console.log('Automatic Mode');
+            const User_ = await UserTicket(); // <- Remove these 2 in manual
+            Numoftickets = await TicketLeft(User_); // Remove these 2 in manual
+        }
+        else {
+            console.log('Manual Mode');
+            Numoftickets = localStorage.getItem('Tickets');
+            console.log('Tickets:',Numoftickets);
+            User_Ticker.textContent = `You Have ${Numoftickets} 🎟️`;
+        }
 
         const RemaningTick = Goal-Numoftickets;
+
+        console.log('remaning const',RemaningTick);
+
         console.log('Remaining Tickets:',RemaningTick);
         if (RemaningTick <= 0) {
             console.log("Remaining tickets: 0 or less");
@@ -115,6 +127,7 @@ async function Display() {
             const bar_width = (Numoftickets/Goal)*100;
             console.log('barwidth',bar_width);
             ProgressBar.style.width = `${bar_width}%`;
+
         }
 
 

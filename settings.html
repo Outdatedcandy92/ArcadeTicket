@@ -5,16 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <link rel="stylesheet" href="./src/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         if (!localStorage.getItem('ShopUrl') || !localStorage.getItem('Reward')) {
             console.log('ShopUrl or Reward does not exist in localStorage');
-            alert('Please set your shop URL and reward first');
+            Swal.fire({
+                title: 'Error!',
+                text: 'Do you want to continue',
+                icon: 'error',
+                confirmButtonText: 'Cool'
+              })
         }
     </script>
 </head>
 <body>
+    
     <button id="SetBtn" onclick="window.location.href = 'index.html'">⚙️</button>
     <form id="formset">
+        <div>
+            <button id="toggleButton" type="button" class="button-on">Automatic</button>
+        </div>
         <div>
             <input type="text" id="name" name="name" placeholder="Enter Shop URL">
         </div>
@@ -63,24 +73,74 @@
                 <option value='39'> MacBook</option>
             </select>
         </div>
-
+        
         <button type="submit" id="subbtn">Submit</button>
     </form>
+    <a href="#" class="resetBtn">Having Issues? Click Here To Reset LocalStorage</a>
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const toggleButton = document.getElementById('toggleButton');
+            const UserInput = document.getElementById('name'); // Assuming 'name' is the ID of your input element
+            let isOn = true; // Initial state of the toggle
+
+            toggleButton.addEventListener('click', () => {
+                isOn = !isOn; // Toggle the state
+                if (isOn) {
+                    console.log('Automatic Mode');
+                    toggleButton.textContent = 'Automatic';
+                    toggleButton.classList.remove('button-off');
+                    toggleButton.classList.add('button-on');
+                    UserInput.placeholder = 'Enter Shop Url'; // Change placeholder for Automatic mode
+                } else {
+                    console.log('Manual Mode');
+                    toggleButton.textContent = 'Manual';
+                    toggleButton.classList.remove('button-on');
+                    toggleButton.classList.add('button-off');
+                    UserInput.placeholder = 'Enter Number Of Tickets You Have'; // Change placeholder for Manual mode
+                }
+            });
+        });
         document.querySelector('form').addEventListener('submit', function(event) {
             event.preventDefault();
             const name = document.getElementById('name').value;
             const reward = document.getElementById('rewardlist').value;
+            const toggleButtonValue = toggleButton.textContent;
+            
+            
+            console.log('Toggle Button Value:', toggleButtonValue);
             console.log('Shop Url:', name);
             console.log('Reward:', reward);
-            if (name !== '') {
+
+            if (toggleButtonValue === 'Automatic') {
+                localStorage.setItem('Automatic', 'true');
+
+                if (name !== '') {
                 localStorage.setItem('ShopUrl', name);
+                }
+                if (reward !== '') {
+                    localStorage.setItem('Reward', reward);
+                }
+
+            } else {
+                localStorage.setItem('Automatic', 'false');
+
+                if (name !== '') {
+                localStorage.setItem('Tickets', name);
+                }
+                if (reward !== '') {
+                    localStorage.setItem('Reward', reward);
+                }
+
             }
-            if (reward !== '') {
-                localStorage.setItem('Reward', reward);
-            }
-            alert('Settings saved!');
-            window.location.href = 'index.html';
+
+
+            Swal.fire({
+                title: 'Settings Saved',
+                text: 'You will be redirected to the main page',
+                confirmButtonText: 'Cool'
+            }).then(() => {
+                window.location.href = 'index.html';
+            });
         });
     </script>
 </body>

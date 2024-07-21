@@ -1,5 +1,14 @@
 - add a need help section in settings.html
 
+- Add a manual option of entering tickets
+
+- Round off the hours per day
+
+- Reset info button
+
+- Add custom end date
+
+
 
 - in script.js add a if/else which checks if user has enough tickets (DONE)
 
