@@ -105,7 +105,7 @@ async function Display() {
             ProgressBar.style.width = `100%`;
             Tickets_Left.textContent = `You Have Completed The Goal 🎉`;
             HourCount.textContent = ``;
-            ConfExpo();
+            //ConfExpo();
         } else {
             console.log("Remaining tickets: not 0 or less");
             const hourcount = daysleft(RemaningTick);
@@ -154,5 +154,4 @@ function ConfExpo(){
 
 
 
-//Display();
-ConfExpo();
+Display();
