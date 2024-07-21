@@ -144,13 +144,13 @@ function daysleft(remaning_tickets){
 
 }
 
-function ConfExpo(){
-    confetti({
-        particleCount: 400,
-        spread: 200,
-        origin: { y: 0.7 },
-      });
-}
+// function ConfExpo(){
+//     confetti({
+//         particleCount: 400,
+//         spread: 200,
+//         origin: { y: 0.7 },
+//       });
+// }
 
 
 
