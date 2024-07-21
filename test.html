@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <script>
+        Swal.fire({
+            title: 'Select Decimal Round Off Value',
+            input: 'select',
+            inputOptions: {
+                '1': '1',
+                '2': '2',
+                // Add more dates as needed
+            },
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            showLoaderOnConfirm: true,
+            preConfirm: (date) => {
+                console.log('Date selected:', date);
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: `You selected ${result.value}`
+                });
+            }
+        });
+        </script>
+</body>
+
+</html>

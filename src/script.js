@@ -8,7 +8,8 @@ const ProgressBar = document.getElementById('ProgressBar');
 const HourCount = document.getElementById('HoursPerDay');
 
 
-const ROUND = 1;
+let ROUND = 2;
+let EndDate = "2024-8-31"
 
 async function RewardDetails(REWARD) {
     try {
@@ -90,7 +91,7 @@ function TicketLeft(INSTR){
 
 
 
-const EndDate = "2024-8-31"
+
 
 function daysleft(remaning_tickets){
     const date1 = new Date();
@@ -99,11 +100,19 @@ function daysleft(remaning_tickets){
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
     console.log(diffDays,'Days Left');
 
-    const tickperday = parseFloat((remaning_tickets / diffDays).toFixed(ROUND));
+    const tick_Num = remaning_tickets / diffDays;
 
-    console.log(tickperday,'Hour per day');
+    console.log('Tickets Per Day:',tick_Num);
 
-    return tickperday;
+    if (tick_Num < 1) {
+        const tickperday = tick_Num.toFixed(2);
+        return tickperday;
+    } else {
+        const tickperday = tick_Num.toFixed(1);
+        return tickperday;
+    }
+
+
 
 }
 
@@ -172,19 +181,11 @@ function ConfExpo(){
     });
 }
 
-function normaltext(){
+function Start(){
     //add stuff for when localstorage is empty
     if (localStorage.getItem('Automatic') && localStorage.getItem('Reward')) {
         Display();
     } else {
-        ticketCountElement.innerText ='😔';
-        ImageElement.innerText ='😔';
-        NameElement.innerText ='😔';
-        SubElement.innerText ='😔';
-        Tickets_Left.innerText ='😔';
-        User_Ticker.innerText ='😔';
-        ProgressBar.innerText ='😔';
-        HourCount.innerText ='😔';
 
         console.log('Automatic or Reward does not exist in localStorage');
         Swal.fire({
@@ -200,8 +201,18 @@ function normaltext(){
     }
 }
 
+function PreStart(){
+    if (localStorage.getItem('EndDate')){
+        EndDate = localStorage.getItem('EndDate');
+    }
+    if (localStorage.getItem('Round')){
+        ROUND = localStorage.getItem('Round');
+    }
 
+}
 
-normaltext();
+PreStart();
+
+Start();
 
 //Display();

@@ -1,10 +1,12 @@
-- add a need help section in settings.html
-- Round off the hours per day (KINDA DONe)
+- add a need help section in settings.html (readme)
 
-- Add custom end date (KINDA DONE)
+
+- Round off the hours per day (DONE)
+
+- Add custom end date (DONE)
 -add advance settings 
-        - custom end date
-        - Custom round off
+        - custom end date (done)
+        - Custom round off (done)
 
 
 
