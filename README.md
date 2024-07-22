@@ -37,3 +37,8 @@ You will be redirected to the settings page
 - You can set custom decimal value for the average hour per day
 - Reset localStorage if facing issues
 
+
+## FAQ
+
+### - Is Entering My Shop URL safe?
+Yes, your shop url is stored only in your localstorage (ie. Inside your broswer)
