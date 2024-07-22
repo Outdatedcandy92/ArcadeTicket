@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Scatter Plot</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+<div id="chart"></div>
+
+<script>
+    // Fetch the data from data.json
+    fetch('data.json')
+      .then(response => response.json())
+      .then(jsonData => {
+        // Use the jsonData here
+        const data = jsonData;
+        console.log(data);
+    
+        // Parse the date / time
+        const parseTime = d3.timeParse("%Y-%m-%dT%H:%M:%S.%LZ");
+    
+        // Set the dimensions and margins of the graph
+        const margin = {top: 10, right: 30, bottom: 30, left: 60},
+              width = 460 - margin.left - margin.right,
+              height = 400 - margin.top - margin.bottom;
+    
+        // Append the svg object to the body of the page
+        const svg = d3.select("#chart")
+          .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+    
+        // Proceed with your D3 code to use the data for visualization
+        // For example, setting up scales, axes, and drawing elements
+      })
+      .catch(error => {
+        console.error('Error loading the data:', error);
+      });
+    </script>
+</body>
+</html>

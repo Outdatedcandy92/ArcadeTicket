@@ -1,4 +1,26 @@
+
+- Add a page which visualizes your data  (D3.js)
+    - Enter APIKEY
+    - Graph
+    - Set custom start/end
+    - Avg 
+
+
+
+
+
+
+
+
+
+
 - add a need help section in settings.html (readme)
+
+
+
+
+
+
 
 
 - Round off the hours per day (DONE)

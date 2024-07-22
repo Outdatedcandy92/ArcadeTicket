@@ -332,3 +332,6 @@ color: #FFEEC6;
 #resetBtn{
     bottom: 0;
 }
+.Bottom a {
+    display: block;
+}
