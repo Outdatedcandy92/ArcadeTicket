@@ -4,6 +4,19 @@
 <head>
   <title>Scatter Plot</title>
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body{
+      background-color: #0d1117;
+      max-height: 100vh;
+      max-width: 100vw;
+    }
+    #chart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  </style>
 </head>
 
 <body>
@@ -11,7 +24,7 @@
     style="opacity: 0; position: absolute; pointer-events: none; padding: 10px; background: #f9f9f9; border: 1px solid #d4d4d4; border-radius: 3px;">
   </div>
   <div id="chart"></div>
-
+  <div id="tooltip" style="position: absolute; visibility: hidden; background-color: white; padding: 5px; border: 1px solid #000;"></div>
   <script src="test.js"></script>
 </body>
 

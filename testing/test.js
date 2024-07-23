@@ -13,142 +13,271 @@ function customDateFormat(date) {
     return `${parseInt(day)}${suffix} ${formatMonth(date)}`;
   }
 
+localStorage.setItem('api', '231447f2-246e-40d5-a180-e1e8c336b13e');
+
 const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7';
-const api = 'APIKEY';  
+const api = localStorage.getItem('api');  
+
+
+function LineGraph(){
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${api}`
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            const simplifiedData = data.data.map(item => {
+                // Parse the createdAt string into a Date object
+                const createdAtDate = new Date(item.createdAt);
+    
+                // Format the date as "yyyy-mm-dd"
+                const formattedDate = createdAtDate.toISOString().split('T')[0];
+    
+                return {
+                    createdAt: formattedDate,
+                    elapsed: item.elapsed
+                };
+            });
+    
+            // Accumulate elapsed values by createdAt
+            const elapsedByDay = simplifiedData.reduce((acc, { createdAt, elapsed }) => {
+                acc[createdAt] = (acc[createdAt] || 0) + elapsed;
+                return acc;
+            }, {});
+    
+            // Log the result
+            for (const [day, totalElapsed] of Object.entries(elapsedByDay)) {
+                console.log(`${day}: ${totalElapsed / 60}`);
+            }
+    
+            const dataForGraph = Object.entries(elapsedByDay).map(([day, totalElapsed]) => ({
+                day: new Date(day), // Convert day back to Date object for D3 scaleTime
+                totalElapsed: totalElapsed / 60 // Assuming you want to convert to hours or another unit
+            }));
+            
+            
+            // Sort dataForGraph by day in ascending order
+            dataForGraph.sort((a, b) => a.day - b.day);
+    
+            // Set the dimensions and margins of the graph
+            const margin = { top: 20, right: 30, bottom: 60, left: 50 },
+                width = 960 - margin.left - margin.right,
+                height = 600 - margin.top - margin.bottom;
+    
+            // Append the svg object to the body of the page
+            const svg = d3.select("#chart").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    
+            // Add X axis
+            const x = d3.scaleBand()
+                .range([0, width])
+                .domain(dataForGraph.map(d => d.day))
+                .padding(0.1);
+            svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).tickFormat(customDateFormat))
+                .selectAll("text")
+                .attr("transform", "translate(-10,0)rotate(-45)")
+                .style("text-anchor", "end");
+            // Add Y axis
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(dataForGraph, d => d.totalElapsed)])
+                .range([height, 0]);
+            svg.append("g")
+                .call(d3.axisLeft(y));
+    
+            // Define the line
+            const line = d3.line()
+                .x(d => x(d.day) + x.bandwidth() / 2) // Center the line in the band
+                .y(d => y(d.totalElapsed));
+    
+            // Draw the line
+            svg.append("path")
+                .datum(dataForGraph)
+                .attr("fill", "none")
+                .attr("stroke", "#69b3a2")
+                .attr("stroke-width", 1.5)
+                .attr("d", line);
+    
+            // Optional: Add circles for each data point
+            const tooltip = d3.select("#tooltip");
+    
+            // Modify the circle (dot) section of your D3 code to handle mouse events
+            svg.selectAll(".dot")
+                .data(dataForGraph)
+                .enter().append("circle")
+                .attr("class", "dot")
+                .attr("cx", d => x(d.day) + x.bandwidth() / 2)
+                .attr("cy", d => y(d.totalElapsed))
+                .attr("r", 5)
+                .attr("fill", "#69b3a2")
+                .on("mouseover", function (event, d) {
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html("Date: " + d.day + "<br/>Elapsed: " + d.totalElapsed)
+                        .style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mousemove", function (event) {
+                    tooltip.style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mouseout", function (d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                });
+    
+            const averageElapsed = d3.mean(dataForGraph, d => d.totalElapsed);
+    
+            // Add a horizontal line for the average
+            svg.append("line")
+                .attr("x1", 0)
+                .attr("x2", width)
+                .attr("y1", y(averageElapsed))
+                .attr("y2", y(averageElapsed))
+                .style("stroke", "red") // Change the color as needed
+                .style(); // Optional: Makes the line dashed
+    
+            // Select the tooltip div and assign it to a variable
+    
+        })
+        .catch(error => {
+            console.error('Error loading the data:', error);
+        });
+    
+
+};
 
 
 
-fetch(url, {
-    method: 'GET',
-    headers: {
-        'Authorization': `Bearer ${api}`
-    }
-})
+
+function heatmap() {
+    const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7'; 
+    const api = localStorage.getItem('api'); 
+
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${api}`
+        }
+    })
     .then(response => response.json())
     .then(data => {
         console.log(data);
         const simplifiedData = data.data.map(item => {
-            // Parse the createdAt string into a Date object
             const createdAtDate = new Date(item.createdAt);
-
-            // Format the date as "yyyy-mm-dd"
             const formattedDate = createdAtDate.toISOString().split('T')[0];
-
             return {
                 createdAt: formattedDate,
                 elapsed: item.elapsed
             };
         });
 
-        // Accumulate elapsed values by createdAt
         const elapsedByDay = simplifiedData.reduce((acc, { createdAt, elapsed }) => {
             acc[createdAt] = (acc[createdAt] || 0) + elapsed;
             return acc;
         }, {});
 
-        // Log the result
         for (const [day, totalElapsed] of Object.entries(elapsedByDay)) {
             console.log(`${day}: ${totalElapsed / 60}`);
         }
 
         const dataForGraph = Object.entries(elapsedByDay).map(([day, totalElapsed]) => ({
-            day: new Date(day), // Convert day back to Date object for D3 scaleTime
-            totalElapsed: totalElapsed / 60 // Assuming you want to convert to hours or another unit
+            day: new Date(day),
+            value: totalElapsed / 60
         }));
 
-        // Sort dataForGraph by day in ascending order
         dataForGraph.sort((a, b) => a.day - b.day);
 
-        // Set the dimensions and margins of the graph
-        const margin = { top: 20, right: 30, bottom: 60, left: 50 },
-            width = 960 - margin.left - margin.right,
-            height = 600 - margin.top - margin.bottom;
-
-        // Append the svg object to the body of the page
+        const margin = {top: 30, right: 0, bottom: 0, left: 30}; // Adjust margins as needed
+        const width = 960 - margin.left - margin.right;
+        const height = 200 - margin.top - margin.bottom;
+        cellSize=17;
+        
+        // Adjust the SVG container to account for margins
         const svg = d3.select("#chart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
+          .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+
+        const colorScale = d3.scaleQuantize()
+            .domain([0, d3.max(dataForGraph, d => d.value)])
+            .range(["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]); // GitHub-like green color scale
+        const year = new Date().getFullYear();
+        const days = d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
+
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("visibility", "hidden")
+            .style("background", "#fff")
+            .style("border", "1px solid #000")
+            .style("padding", "5px")
 
 
-        // Add X axis
-        const x = d3.scaleBand()
-            .range([0, width])
-            .domain(dataForGraph.map(d => d.day))
-            .padding(0.1);
-        svg.append("g")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(x).tickFormat(customDateFormat))
-            .selectAll("text")
-            .attr("transform", "translate(-10,0)rotate(-45)")
-            .style("text-anchor", "end");
-        // Add Y axis
-        const y = d3.scaleLinear()
-            .domain([0, d3.max(dataForGraph, d => d.totalElapsed)])
-            .range([height, 0]);
-        svg.append("g")
-            .call(d3.axisLeft(y));
-
-        // Define the line
-        const line = d3.line()
-            .x(d => x(d.day) + x.bandwidth() / 2) // Center the line in the band
-            .y(d => y(d.totalElapsed));
-
-        // Draw the line
-        svg.append("path")
-            .datum(dataForGraph)
-            .attr("fill", "none")
-            .attr("stroke", "#69b3a2")
-            .attr("stroke-width", 1.5)
-            .attr("d", line);
-
-        // Optional: Add circles for each data point
-        const tooltip = d3.select("#tooltip");
-
-        // Modify the circle (dot) section of your D3 code to handle mouse events
-        svg.selectAll(".dot")
-            .data(dataForGraph)
-            .enter().append("circle")
-            .attr("class", "dot")
-            .attr("cx", d => x(d.day) + x.bandwidth() / 2)
-            .attr("cy", d => y(d.totalElapsed))
-            .attr("r", 5)
-            .attr("fill", "#69b3a2")
-            .on("mouseover", function (event, d) {
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                tooltip.html("Date: " + d.day + "<br/>Elapsed: " + d.totalElapsed)
-                    .style("left", (event.pageX) + "px")
-                    .style("top", (event.pageY - 28) + "px");
+        svg.selectAll("rect")
+            .data(days)
+            .enter().append("rect")
+            .attr("width", cellSize - 2)
+            .attr("height", cellSize - 2)
+            .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
+            .attr("y", d => d.getDay() * cellSize)
+            .attr("rx", 3) // Sets the x-axis corner radius
+            .attr("ry", 3) // Sets the y-axis corner radius
+            .attr("fill", d => {
+                const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
+                return dataPoint ? colorScale(dataPoint.value) : "#161b22";
             })
-            .on("mousemove", function (event) {
-                tooltip.style("left", (event.pageX) + "px")
-                    .style("top", (event.pageY - 28) + "px");
+            .append("title")
+            .text(d => {
+                const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
+                return dataPoint ? `Date: ${d.toDateString()}, Value: ${dataPoint.value}` : "No data";
             })
-            .on("mouseout", function (d) {
-                tooltip.transition()
-                    .duration(500)
-                    .style("opacity", 0);
+            .on("mouseover", function(event, d) {
+                const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
+                tooltip.style("visibility", "visible")
+                    .text(dataPoint ? `Date: ${d.toDateString()}, Value: ${dataPoint.value}` : "No data")
+                    .style("top", (event.pageY - 10) + "px")
+                    .style("left", (event.pageX + 10) + "px");
+            })
+            .on("mousemove", function(event) {
+                tooltip.style("top", (event.pageY - 10) + "px")
+                    .style("left", (event.pageX + 10) + "px");
+            })
+            .on("mouseout", function() {
+                tooltip.style("visibility", "hidden");
             });
+            
+            const months = d3.timeMonths(new Date(year, 0, 1), new Date(year + 1, 0, 1));
+            svg.selectAll(".month-label")
+            .data(months)
+            .enter().append("text")
+            .attr("class", "month-label")
+            .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
+            .attr("y", -10) // Position labels above the heatmap; adjust as needed
+            .attr("text-anchor", "start")
+            .text(d => d3.timeFormat("%b")(d))
+            .style("fill", "#fff");
 
-        const averageElapsed = d3.mean(dataForGraph, d => d.totalElapsed);
-
-        // Add a horizontal line for the average
-        svg.append("line")
-            .attr("x1", 0)
-            .attr("x2", width)
-            .attr("y1", y(averageElapsed))
-            .attr("y2", y(averageElapsed))
-            .style("stroke", "red") // Change the color as needed
-            .style(); // Optional: Makes the line dashed
-
-        // Select the tooltip div and assign it to a variable
-
+            
     })
     .catch(error => {
         console.error('Error loading the data:', error);
     });
+}
+
+heatmap();
+//LineGraph();
 
 
