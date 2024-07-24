@@ -12,15 +12,11 @@ function customDateFormat(date) {
     }
     return `${parseInt(day)}${suffix} ${formatMonth(date)}`;
 }
+function fetchData() {
+    const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7';
+    const api = localStorage.getItem('api');
 
-localStorage.setItem('api', '231447f2-246e-40d5-a180-e1e8c336b13e');
-
-const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7';
-const api = localStorage.getItem('api');
-
-
-function LineGraph() {
-    fetch(url, {
+    return fetch(url, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${api}`
@@ -28,21 +24,34 @@ function LineGraph() {
     })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
-            const simplifiedData = data.data.map(item => {
-                // Parse the createdAt string into a Date object
-                const createdAtDate = new Date(item.createdAt);
+            return data;
+        })
+        .catch(error => {
+            console.error('Error loading the data:', error);
+        });
+}
 
-                // Format the date as "yyyy-mm-dd"
-                const formattedDate = createdAtDate.toISOString().split('T')[0];
+const data_start = fetchData();
 
-                return {
-                    createdAt: formattedDate,
-                    elapsed: item.elapsed
-                };
-            });
 
-   
+
+function LineGraph() {
+    data_start.then(data => {
+        console.log(data);
+        const simplifiedData = data.data.map(item => {
+            // Parse the createdAt string into a Date object
+            const createdAtDate = new Date(item.createdAt);
+
+            // Format the date as "yyyy-mm-dd"
+            const formattedDate = createdAtDate.toISOString().split('T')[0];
+
+            return {
+                createdAt: formattedDate,
+                elapsed: item.elapsed
+            };
+        });
+
+
         // Step 1: Accumulate elapsed values by createdAt
         const elapsedByDay = simplifiedData.reduce((acc, { createdAt, elapsed }) => {
             acc[createdAt] = (acc[createdAt] || 0) + elapsed;
@@ -59,128 +68,145 @@ function LineGraph() {
         }));
 
 
-            // Sort dataForGraph by day in ascending order
+        // Sort dataForGraph by day in ascending order
 
-            console.log(dataForGraph);
+        console.log(dataForGraph);
 
-            // Set the dimensions and margins of the graph
-            const margin = { top: 20, right: 30, bottom: 60, left: 50 },
-                width = 960 - margin.left - margin.right,
-                height = 600 - margin.top - margin.bottom;
+        // Set the dimensions and margins of the graph
+        const margin = { top: 20, right: 30, bottom: 60, left: 50 },
+            width = 960 - margin.left - margin.right,
+            height = 600 - margin.top - margin.bottom;
 
-            // Append the svg object to the body of the page
-            const svg = d3.select("#chart").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`);
-
-
-                  
-            // Add X axis
-            const x = d3.scaleBand()
-                .range([0, width])
-                .domain(dataForGraph.map(d => d.day))
-                .padding(0.1);
-
-            svg.append("g")
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x).tickFormat(customDateFormat))
-                .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end");
-            // Add Y axis
-            const y = d3.scaleLinear()
-                .domain([0, d3.max(dataForGraph, d => d.totalElapsed)])
-                .range([height, 0]);
-            svg.append("g")
-                .call(d3.axisLeft(y));
+        // Append the svg object to the body of the page
+        const svg = d3.select("#chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
 
-            // Define the line
-            const line = d3.line()
-                .x(d => x(d.day) + x.bandwidth() / 2) // Center the line in the band
-                .y(d => y(d.totalElapsed));
 
-            // Draw the line
-            svg.append("path")
-                .datum(dataForGraph)
-                .attr("fill", "none")
-                .attr("stroke", "#2d9d4a")
-                .attr("stroke-width", 1.5)
-                .attr("d", line);
+        // Add X axis
+        const x = d3.scaleBand()
+            .range([0, width])
+            .domain(dataForGraph.map(d => d.day))
+            .padding(0.1);
 
-            // Optional: Add circles for each data point
-            const tooltip = d3.select("#tooltip");
+        const uniqueDates = [...new Set(dataForGraph.map(d => d.day))];
 
-            // Modify the circle (dot) section of your D3 code to handle mouse events
-            svg.selectAll(".dot")
-                .data(dataForGraph)
-                .enter().append("circle")
-                .attr("class", "dot")
-                .attr("cx", d => x(d.day) + x.bandwidth() / 2)
-                .attr("cy", d => y(d.totalElapsed))
-                .attr("r", 5)
-                .attr("fill", "#2d9d4a")
-                .on("mouseover", function (event, d) {
-                    tooltip.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    tooltip.html("Date: " + d.day + "<br/>Elapsed: " + d.totalElapsed)
-                        .style("left", (event.pageX) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mousemove", function (event) {
-                    tooltip.style("left", (event.pageX) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mouseout", function (d) {
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                });
+        // Convert unique dates to Date objects if they are not already
+        // This step is necessary if your dates are strings and you're using a time scale
+        const uniqueDateObjects = uniqueDates.map(date => new Date(date));
 
-            const averageElapsed = d3.mean(dataForGraph, d => d.totalElapsed);
+        // Format the unique dates as "6th June" format
+        const formatDateWithOrdinal = (date) => {
+            const formatDay = d3.timeFormat("%d");
+            const formatMonth = d3.timeFormat("%B");
+            const day = formatDay(date);
+            let suffix = "th";
+            if (day === "1" || day === "21" || day === "31") {
+                suffix = "st";
+            } else if (day === "2" || day === "22") {
+                suffix = "nd";
+            } else if (day === "3" || day === "23") {
+                suffix = "rd";
+            }
+            return `${parseInt(day)}${suffix} ${formatMonth(date)}`;
+        };
 
-            // Add a horizontal line for the average
-            svg.append("line")
-                .attr("x1", 0)
-                .attr("x2", width)
-                .attr("y1", y(averageElapsed))
-                .attr("y2", y(averageElapsed))
-                .style("stroke", "red") // Change the color as needed
-                .style(); // Optional: Makes the line dashed
+        // Apply the formatted dates as tick values on the x-axis
+        svg.append("g")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickFormat((d) => {
+                // Find the corresponding date object for the tick value
+                const dateObj = uniqueDateObjects.find(date => date.toDateString() === new Date(d).toDateString());
+                return dateObj ? formatDateWithOrdinal(dateObj) : "";
+            }))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .style("text-anchor", "end")
+            .style("fill", "#fff")
+            .style("color", "#fff"); // Set the color of the x-axis text
 
-            // Select the tooltip div and assign it to a variable
-
-            // Set the color for the x-axis elements
-            svg.append("g")
-                .attr("transform", `translate(0,${height})`)
-                .call(d3.axisBottom(x).tickFormat(customDateFormat))
-                .selectAll("text")
-                .attr("transform", "translate(-10,0)rotate(-45)")
-                .style("text-anchor", "end")
-                .style("fill", "#dadde0"); // Set the color of the x-axis text
-
-            // Apply styles to the x-axis path and line (ticks)
-            svg.selectAll(".domain, .tick line") // Selects the domain line and tick lines of the x-axis
-                .style("stroke", "#dadde0"); // Set the color of the x-axis line and ticks
-
-            // Add Y axis and set the color for the y-axis elements
-            svg.append("g")
-                .call(d3.axisLeft(y))
-                .selectAll("text")
-                .style("fill", "#dadde0"); // Set the color of the y-axis text
-
-            // Apply styles to the y-axis path and line (ticks)
-            svg.selectAll(".domain, .tick line") // Selects the domain line and tick lines of the y-axis
-                .style("stroke", "#dadde0"); // Set the color of the y-axis line and ticks
-        })
-        .catch(error => {
-            console.error('Error loading the data:', error);
-        });
+        // Add Y axis
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(dataForGraph, d => d.totalElapsed)])
+            .range([height, 0]);
+        svg.append("g")
+            .call(d3.axisLeft(y));
 
 
+        // Define the line
+        const line = d3.line()
+            .x(d => x(d.day) + x.bandwidth() / 2) // Center the line in the band
+            .y(d => y(d.totalElapsed));
+
+        // Draw the line
+        svg.append("path")
+            .datum(dataForGraph)
+            .attr("fill", "none")
+            .attr("stroke", "#2d9d4a")
+            .attr("stroke-width", 1.5)
+            .attr("d", line);
+
+        // Optional: Add circles for each data point
+        const tooltip = d3.select("#tooltip");
+
+        // Modify the circle (dot) section of your D3 code to handle mouse events
+        svg.selectAll(".dot")
+            .data(dataForGraph)
+            .enter().append("circle")
+            .attr("class", "dot")
+            .attr("cx", d => x(d.day) + x.bandwidth() / 2)
+            .attr("cy", d => y(d.totalElapsed))
+            .attr("r", 5)
+            .attr("fill", "#2d9d4a")
+            .on("mouseover", function (event, d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html("Date: " + d.day + "<br/>Elapsed: " + d.totalElapsed)
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mousemove", function (event) {
+                tooltip.style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
+        const averageElapsed = d3.mean(dataForGraph, d => d.totalElapsed);
+
+        // Add a horizontal line for the average
+        svg.append("line")
+            .attr("x1", 0)
+            .attr("x2", width)
+            .attr("y1", y(averageElapsed))
+            .attr("y2", y(averageElapsed))
+            .style("stroke", "red") // Change the color as needed
+            .style(); // Optional: Makes the line dashed
+
+
+
+        // Apply styles to the x-axis path and line (ticks)
+        svg.selectAll(".domain, .tick line") // Selects the domain line and tick lines of the x-axis
+            .style("stroke", "#dadde0"); // Set the color of the x-axis line and ticks
+
+        // Add Y axis and set the color for the y-axis elements
+        svg.append("g")
+            .call(d3.axisLeft(y))
+            .selectAll("text")
+            .style("fill", "#dadde0"); // Set the color of the y-axis text
+
+        // Apply styles to the y-axis path and line (ticks)
+        svg.selectAll(".domain, .tick line") // Selects the domain line and tick lines of the y-axis
+            .style("stroke", "#dadde0"); // Set the color of the y-axis line and ticks
+
+    });
 };
 
 
@@ -243,15 +269,6 @@ function heatmap() {
             const year = new Date().getFullYear();
             const days = d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
 
-            const tooltip = d3.select("body").append("div")
-                .attr("class", "tooltip")
-                .style("position", "absolute")
-                .style("visibility", "hidden")
-                .style("background", "#fff")
-                .style("border", "1px solid #000")
-                .style("padding", "5px")
-
-
             svg.selectAll("rect")
                 .data(days)
                 .enter().append("rect")
@@ -265,24 +282,22 @@ function heatmap() {
                     const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
                     return dataPoint ? colorScale(dataPoint.value) : "#161b22";
                 })
-                .append("title")
-                .text(d => {
-                    const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
-                    return dataPoint ? `Date: ${d.toDateString()}, Value: ${dataPoint.value}` : "No data";
-                })
                 .on("mouseover", function (event, d) {
-                    const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
-                    tooltip.style("visibility", "visible")
-                        .text(dataPoint ? `Date: ${d.toDateString()}, Value: ${dataPoint.value}` : "No data")
-                        .style("top", (event.pageY - 10) + "px")
-                        .style("left", (event.pageX + 10) + "px");
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html("Date: " + d.day + "<br/>Elapsed: " + d.totalElapsed)
+                        .style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY - 28) + "px");
                 })
                 .on("mousemove", function (event) {
-                    tooltip.style("top", (event.pageY - 10) + "px")
-                        .style("left", (event.pageX + 10) + "px");
+                    tooltip.style("left", (event.pageX) + "px")
+                        .style("top", (event.pageY - 28) + "px");
                 })
-                .on("mouseout", function () {
-                    tooltip.style("visibility", "hidden");
+                .on("mouseout", function (d) {
+                    tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
                 });
 
             const months = d3.timeMonths(new Date(year, 0, 1), new Date(year + 1, 0, 1));
@@ -306,13 +321,15 @@ function heatmap() {
 
 let isHeatmapActive = true;
 
+
+
 function toggleGraph() {
     var existingSVG = d3.select("body").select("svg");
     if (!existingSVG.empty()) {
         existingSVG.remove();
     }
     if (isHeatmapActive) {
-        LineGraph();
+        LineGraph(data_start);
         isHeatmapActive = false;
     } else {
         heatmap();
