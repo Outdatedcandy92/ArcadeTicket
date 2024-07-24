@@ -130,13 +130,15 @@
                 .selectAll("text")
                 .attr("transform", "translate(-10,0)rotate(-45)")
                 .style("text-anchor", "end")
-                .style("fill", "#fff")
-                .style("color", "#fff"); // Set the color of the x-axis text
+                .style("fill", "#6d6c6b")
+                .style("font-family", "Slackey, sans-serif")
+
 
             // Add Y axis
             const y = d3.scaleLinear()
                 .domain([0, d3.max(dataForGraph, d => d.totalElapsed)])
                 .range([height, 0]);
+                
             svg.append("g")
                 .call(d3.axisLeft(y));
 
@@ -150,11 +152,11 @@
             svg.append("path")
                 .datum(dataForGraph)
                 .attr("fill", "none")
-                .attr("stroke", "#2d9d4a")
-                .attr("stroke-width", 1.5)
+                .attr("stroke", "#fb8b3c")
+                .attr("stroke-width", 2.5)
                 .attr("d", line);
 
-            // Optional: Add circles for each data point
+
 
             // Modify the circle (dot) section of your D3 code to handle mouse events
             svg.selectAll(".dot")
@@ -164,7 +166,9 @@
                 .attr("cx", d => x(d.day) + x.bandwidth() / 2)
                 .attr("cy", d => y(d.totalElapsed))
                 .attr("r", 5)
-                .attr("fill", "#2d9d4a")
+                .attr("fill", "#fb8b3c")
+                .attr("stroke", "#6d6c6b")
+                .attr("stroke-width", 2)
                 .on("mouseover", function (event, d) {
                     tooltip.transition()
                         .duration(200)
@@ -198,17 +202,19 @@
 
             // Apply styles to the x-axis path and line (ticks)
             svg.selectAll(".domain, .tick line") // Selects the domain line and tick lines of the x-axis
-                .style("stroke", "#dadde0"); // Set the color of the x-axis line and ticks
+                .style("stroke", "#6d6c6b"); // Set the color of the x-axis line and ticks
 
             // Add Y axis and set the color for the y-axis elements
             svg.append("g")
                 .call(d3.axisLeft(y))
-                .selectAll("text")
-                .style("fill", "#6d6c6b"); // Set the color of the y-axis text
+                .selectAll("text").style("font-family", "Slackey, sans-serif")
+                .style("fill", "#6d6c6b") // Set the color of the y-axis text
+                .style("font-family", "Slackey, sans-serif");
 
             // Apply styles to the y-axis path and line (ticks)
             svg.selectAll(".domain, .tick line") // Selects the domain line and tick lines of the y-axis
-                .style("stroke", "#6d6c6b"); // Set the color of the y-axis line and ticks
+                .style("stroke", "#6d6c6b") // Set the color of the y-axis line and ticks
+
 
         });
     };
@@ -272,7 +278,7 @@
                 .attr("y", -10) // Position labels above the heatmap; adjust as needed
                 .attr("text-anchor", "start")
                 .text(d => d3.timeFormat("%b")(d))
-                .style("fill", "#fff");
+                .style("fill", "#6d6c6"); // Set the color of the month labels
 
             svg.selectAll("rect")
                 .data(days)
@@ -314,7 +320,7 @@
             });
     }
 
-    const hourText = document.getElementById('HourText');
+
 
     function HandleData() {
         data_start.then(data => {
@@ -357,9 +363,10 @@
 
             const today = new Date().toISOString().split('T')[0];
             const todayData = dataForGraph.find(({ day }) => day === today);
+            const hourText = document.getElementById('HourText');
             if (todayData) {
                 console.log(`Total elapsed hours for today (${today}): ${todayData.totalElapsed.toFixed(2)}`);
-                hourText.innerHTML = `Hours Done Today : ${todayData.totalElapsed.toFixed(2)}`;
+                hourText.innerHTML = `Hours Done Today: ${todayData.totalElapsed.toFixed(2)}`;
             } else {
                 console.log(`No data available for today (${today})`);
             }
@@ -370,7 +377,7 @@
 
     function toggleGraph() {
         var existingSVG = d3.select("body").select("svg");
-    
+        HandleData();
         if (!existingSVG.empty()) {
             existingSVG.remove();
         }
