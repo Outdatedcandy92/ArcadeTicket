@@ -32,6 +32,7 @@ function fetchData() {
 }
 
 const data_start = fetchData();
+const tooltip = d3.select("#tooltip");
 
 
 
@@ -150,7 +151,6 @@ function LineGraph() {
             .attr("d", line);
 
         // Optional: Add circles for each data point
-        const tooltip = d3.select("#tooltip");
 
         // Modify the circle (dot) section of your D3 code to handle mouse events
         svg.selectAll(".dot")
@@ -213,113 +213,146 @@ function LineGraph() {
 
 
 function heatmap() {
-    const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7';
-    const api = localStorage.getItem('api');
 
-    fetch(url, {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${api}`
+    data_start.then(data => {
+        console.log(data);
+        const simplifiedData = data.data.map(item => {
+            const createdAtDate = new Date(item.createdAt);
+            const formattedDate = createdAtDate.toISOString().split('T')[0];
+            return {
+                createdAt: formattedDate,
+                elapsed: item.elapsed
+            };
+        });
+
+        const elapsedByDay = simplifiedData.reduce((acc, { createdAt, elapsed }) => {
+            acc[createdAt] = (acc[createdAt] || 0) + elapsed;
+            return acc;
+        }, {});
+
+        for (const [day, totalElapsed] of Object.entries(elapsedByDay)) {
+            console.log(`${day}: ${totalElapsed / 60}`);
         }
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            const simplifiedData = data.data.map(item => {
-                const createdAtDate = new Date(item.createdAt);
-                const formattedDate = createdAtDate.toISOString().split('T')[0];
-                return {
-                    createdAt: formattedDate,
-                    elapsed: item.elapsed
-                };
+
+        const dataForGraph = Object.entries(elapsedByDay).map(([day, totalElapsed]) => ({
+            day: new Date(day),
+            value: totalElapsed / 60
+        }));
+
+        dataForGraph.sort((a, b) => a.day - b.day);
+
+        const margin = { top: 30, right: 0, bottom: 0, left: 30 }; // Adjust margins as needed
+        const width = 960 - margin.left - margin.right;
+        const height = 200 - margin.top - margin.bottom;
+        cellSize = 17;
+
+        // Adjust the SVG container to account for margins
+        const svg = d3.select("#chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        const colorScale = d3.scaleQuantize()
+            .domain([0, d3.max(dataForGraph, d => d.value)])
+            .range(["#0e4429", "#006d32", "#26a641", "#39d353"]); // GitHub-like green color scale
+        const year = new Date().getFullYear();
+        const days = d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
+
+        const months = d3.timeMonths(new Date(year, 0, 1), new Date(year + 1, 0, 1));
+        svg.selectAll(".month-label")
+            .data(months)
+            .enter().append("text")
+            .attr("class", "month-label")
+            .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
+            .attr("y", -10) // Position labels above the heatmap; adjust as needed
+            .attr("text-anchor", "start")
+            .text(d => d3.timeFormat("%b")(d))
+            .style("fill", "#fff");
+
+        svg.selectAll("rect")
+            .data(days)
+            .enter().append("rect")
+            .attr("width", cellSize - 2)
+            .attr("height", cellSize - 2)
+            .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
+            .attr("y", d => d.getDay() * cellSize)
+            .attr("rx", 3) // Sets the x-axis corner radius
+            .attr("ry", 3) // Sets the y-axis corner radius
+            .attr("fill", d => {
+                const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
+                return dataPoint ? colorScale(dataPoint.value) : "#161b22";
+            })
+            .on("mouseover", function (event, d) {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                
+                tooltip.html("Date: " + d.toDateString() + "<br/>Elapsed: " + (dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime()) || { value: 0 }).value)
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 40) + "px");
+            })
+            .on("mousemove", function (event) {
+                // Keep the tooltip's position updated with mouse movement
+                // Adjust these values as needed
+                tooltip.style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY - 40) + "px");
+            })
+            .on("mouseout", function (d) {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
             });
 
-            const elapsedByDay = simplifiedData.reduce((acc, { createdAt, elapsed }) => {
-                acc[createdAt] = (acc[createdAt] || 0) + elapsed;
-                return acc;
-            }, {});
-
-            for (const [day, totalElapsed] of Object.entries(elapsedByDay)) {
-                console.log(`${day}: ${totalElapsed / 60}`);
-            }
-
-            const dataForGraph = Object.entries(elapsedByDay).map(([day, totalElapsed]) => ({
-                day: new Date(day),
-                value: totalElapsed / 60
-            }));
-
-            dataForGraph.sort((a, b) => a.day - b.day);
-
-            const margin = { top: 30, right: 0, bottom: 0, left: 30 }; // Adjust margins as needed
-            const width = 960 - margin.left - margin.right;
-            const height = 200 - margin.top - margin.bottom;
-            cellSize = 17;
-
-            // Adjust the SVG container to account for margins
-            const svg = d3.select("#chart").append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-
-            const colorScale = d3.scaleQuantize()
-                .domain([0, d3.max(dataForGraph, d => d.value)])
-                .range(["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]); // GitHub-like green color scale
-            const year = new Date().getFullYear();
-            const days = d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
-
-            svg.selectAll("rect")
-                .data(days)
-                .enter().append("rect")
-                .attr("width", cellSize - 2)
-                .attr("height", cellSize - 2)
-                .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
-                .attr("y", d => d.getDay() * cellSize)
-                .attr("rx", 3) // Sets the x-axis corner radius
-                .attr("ry", 3) // Sets the y-axis corner radius
-                .attr("fill", d => {
-                    const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
-                    return dataPoint ? colorScale(dataPoint.value) : "#161b22";
-                })
-                .on("mouseover", function (event, d) {
-                    tooltip.transition()
-                        .duration(200)
-                        .style("opacity", .9);
-                    tooltip.html("Date: " + d.day + "<br/>Elapsed: " + d.totalElapsed)
-                        .style("left", (event.pageX) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mousemove", function (event) {
-                    tooltip.style("left", (event.pageX) + "px")
-                        .style("top", (event.pageY - 28) + "px");
-                })
-                .on("mouseout", function (d) {
-                    tooltip.transition()
-                        .duration(500)
-                        .style("opacity", 0);
-                });
-
-            const months = d3.timeMonths(new Date(year, 0, 1), new Date(year + 1, 0, 1));
-            svg.selectAll(".month-label")
-                .data(months)
-                .enter().append("text")
-                .attr("class", "month-label")
-                .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
-                .attr("y", -10) // Position labels above the heatmap; adjust as needed
-                .attr("text-anchor", "start")
-                .text(d => d3.timeFormat("%b")(d))
-                .style("fill", "#fff");
-
-
-        })
+    })
         .catch(error => {
             console.error('Error loading the data:', error);
         });
 }
 
 
-let isHeatmapActive = true;
+
+function HandleData(){
+    data_start.then(data => {
+        console.log(data);
+        const simplifiedData = data.data.map(item => {
+            // Parse the createdAt string into a Date object
+            const createdAtDate = new Date(item.createdAt);
+
+            // Format the date as "yyyy-mm-dd"
+            const formattedDate = createdAtDate.toISOString().split('T')[0];
+
+            return {
+                createdAt: formattedDate,
+                elapsed: item.elapsed
+            };
+        });
+
+
+        // Step 1: Accumulate elapsed values by createdAt
+        const elapsedByDay = simplifiedData.reduce((acc, { createdAt, elapsed }) => {
+            acc[createdAt] = (acc[createdAt] || 0) + elapsed;
+            return acc;
+        }, {});
+
+        // Step 2: Sort the data by date
+        const sortedData = Object.entries(elapsedByDay).sort(([date1], [date2]) => new Date(date1) - new Date(date2));
+
+        // Step 3: Prepare data for graphing
+        const dataForGraph = sortedData.map(([day, totalElapsed]) => ({
+            day, // Use the string directly
+            totalElapsed: totalElapsed / 60 // Convert to hours or another unit
+        }));
+
+
+        // Sort dataForGraph by day in ascending order
+
+        console.log(dataForGraph);
+    });
+}
+HandleData();
+
+let isHeatmapActive = false;
 
 
 
@@ -337,8 +370,7 @@ function toggleGraph() {
     }
 }
 
-toggleGraph();
-//heatmap();
-//LineGraph();
+//toggleGraph();
+
 
 
