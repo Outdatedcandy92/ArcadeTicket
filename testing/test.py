@@ -4,16 +4,17 @@ import requests
 def ping():
     url = "http://hackhour.hackclub.com/api/history/U079HV9PTC7"
     headers = {
-        "Authorization": 'API'
+        "Authorization": 'c2314fb6-a771-44a5-acce-34aa5946e7e5'
     }
 
     response = requests.get(url, headers=headers)
     data = response.json()
 
+    print(response.status_code)
     with open('data.json', 'w') as file:
         json.dump(data, file)
 
-
+ping()
 
 
 
