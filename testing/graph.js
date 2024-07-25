@@ -1,6 +1,6 @@
 
 function fetchData() {
-    const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7';
+    const url = 'http://hackhour.hackclub.com/api/history/U079HV9PTC7';
     //const url = './data.json';
     const api = localStorage.getItem('APIKey');
 

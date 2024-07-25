@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.2/jquery.min.js" integrity="sha512-tWHlutFnuG0C6nQRlpvrEhE4QpkG1nn2MOUMWmUeRePl4e3Aki0VB6W1v3oLjFtd0hVOtRQ9PHpSfN6u6/QXkQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+    <script>
+
+        $.ajax({
+            url: "http://hackhour.hackclub.com/api/history/U079HV9PTC7",
+            method: "GET",
+            headers: {
+                Authorization: "5ee2ee3e-b72f-41e2-a038-0c06ffec0cf2"
+            },
+            success: function(data) {
+                console.log(data);
+            },
+            error: function(xhr, status, error) {
+                console.log(error);
+            }
+        });
+    </script>
+</body>
+</html>
