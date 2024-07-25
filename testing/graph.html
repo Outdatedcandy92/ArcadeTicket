@@ -22,7 +22,7 @@
       transform: translate(-50%, -50%);
     }
 
-    h1 {
+    #HourText{
       color: #fb8b3c;
       font-family: "Slackey", sans-serif;
       position: absolute;
@@ -30,12 +30,20 @@
       left: 50%;
       transform: translateX(-50%);
     }
+    #HourTotal{
+      color: #fb8b3c;
+      font-family: "Slackey", sans-serif;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   </style>
 </head>
 
 <body>
-  <a onclick="toggleGraph()">👌</a>
- <h1>Total Hours:</h1>
+  <a href="../index.html">👌</a>
+ <h1 id="HourTotal">Total Hours:</h1>
 
   <div id="tooltip"
     style="opacity: 0; position: absolute; pointer-events: none; padding: 10px; background: #f9f9f9; border: 1px solid #d4d4d4; border-radius: 3px; z-index: 999;">
@@ -46,7 +54,7 @@
 
   <h1 id="HourText">h</h1>
 
-  <script src="test.js"></script>
+  <script src="graph.js"></script>
 
 
 

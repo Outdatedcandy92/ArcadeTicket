@@ -155,6 +155,7 @@ async function Display() {
             console.log("Remaining tickets: not 0 or less");
             const hourcount = daysleft(RemaningTick);
             HourCount.textContent = `You Need ${hourcount} 🎟️ Per Day`;
+            localStorage.setItem('Goal',hourcount);
     
             Tickets_Left.textContent = `You Need ${RemaningTick} 🎟️`;
             const bar_width = (Numoftickets/Goal)*100;

@@ -1,8 +1,8 @@
 
 function fetchData() {
-    //const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7';
-    const url = './data.json';
-    const api = localStorage.getItem('api');
+    const url = 'https://cors-anywhere.herokuapp.com/http://hackhour.hackclub.com/api/history/U079HV9PTC7';
+    //const url = './data.json';
+    const api = localStorage.getItem('APIKey');
 
     return fetch(url, {
         method: 'GET',
@@ -155,7 +155,7 @@ function LineGraph() {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
-                tooltip.html("Date: " + (d.day) + "<br/>Elapsed: " + d.totalElapsed)
+                tooltip.html("Date: " + (d.day) + "<br/>Hours: " + d.totalElapsed.toFixed(2))
                     .style("left", (event.pageX) + "px")
                     .style("top", (event.pageY - 28) + "px");
             })
@@ -199,7 +199,7 @@ function LineGraph() {
         svg.selectAll(".domain, .tick line") // Selects the domain line and tick lines of the y-axis
             .style("stroke", "#6d6c6b") // Set the color of the y-axis line and ticks
 
-        const goal = 3;
+        const goal = localStorage.getItem('Goal');
 
         // Add a horizontal line for the goal
         svg.append("line")
@@ -318,7 +318,7 @@ function heatmap() {
             .attr("ry", 3) // Sets the y-axis corner radius
             .attr("fill", d => {
                 const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
-                return dataPoint ? colorScale(dataPoint.value) : "#161b22";
+                return dataPoint ? colorScale(dataPoint.value) : "#ffa73c";
             })
             .on("mouseover", function (event, d) {
                 tooltip.transition()
@@ -383,10 +383,12 @@ function HandleData() {
 
 
         // Sort dataForGraph by day in ascending order
+        const TotalHour = document.getElementById('HourTotal');
 
         console.log(dataForGraph);
         const totalElapsedSum = Math.round(dataForGraph.reduce((sum, { totalElapsed }) => sum + totalElapsed, 0));
         console.log("Total Elapsed Sum:", totalElapsedSum);
+        TotalHour.innerHTML = `Total Hours: ${totalElapsedSum}`;
 
         const today = new Date().toISOString().split('T')[0];
         const todayData = dataForGraph.find(({ day }) => day === today);
@@ -396,6 +398,7 @@ function HandleData() {
             hourText.innerHTML = `Hours Done Today: ${todayData.totalElapsed.toFixed(2)}`;
         } else {
             console.log(`No data available for today (${today})`);
+            hourText.innerHTML = `No data available for today`;
         }
     });
 }

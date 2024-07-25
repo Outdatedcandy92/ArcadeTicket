@@ -1,9 +1,9 @@
 
 - Add a page which visualizes your data  (D3.js)
     - Enter APIKEY
-    - Graph
+    - Graph (Done)
     - Set custom start/end
-    - Avg 
+    - Avg (DONE)
 
 
 
