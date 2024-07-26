@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Scatter Plot</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Slackey&family=Emblema+One&family=Gaegu&display=swap');
+
+    body {
+      background-color: #faefd6;
+      max-height: 100vh;
+      max-width: 100vw;
+
+      font-family: "Gaegu", sans-serif;
+    }
+
+    #chart {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #HourText {
+      color: #fb8b3c;
+      font-family: "Slackey", sans-serif;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    #HourTotal {
+      color: #fb8b3c;
+      font-family: "Slackey", sans-serif;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+
+<body>
+  <a href="../index.html">👌</a>
+  <a style="position: absolute; top: 0; right: 0;" onclick="inputapi();">⚙️</a>
+  <h1 id="HourTotal">Total Hours:</h1>
+
+  <div id="tooltip"
+    style="opacity: 0; position: absolute; pointer-events: none; padding: 10px; background: #f9f9f9; border: 1px solid #d4d4d4; border-radius: 3px; z-index: 999;">
+  </div>
+
+  <div id="chart"></div>
+
+
+  <h1 id="HourText">h</h1>
+
+  <script src="./src/graph.js"></script>
+  <script>
+    function inputapi() {
+      Swal.fire({
+        title: 'API Key',
+        input: 'text',
+        inputPlaceholder: 'Enter API key',
+        inputAttributes: {
+          autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        showLoaderOnConfirm: true,
+        preConfirm: (input1) => {
+          Swal.fire({
+            title: 'slack ID',
+            input: 'text',
+            inputPlaceholder: 'Enter Slack ID',
+            inputAttributes: {
+              autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Submit',
+            showLoaderOnConfirm: true,
+            preConfirm: (input2) => {
+              console.log('Input 1:', input1);
+              console.log('Input 2:', input2);
+              localStorage.setItem('api', input1);
+              localStorage.setItem('slack', input2);
+
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+          });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+      });
+
+    }
+  </script>
+
+
+
+
+
+</body>
+
+</html>

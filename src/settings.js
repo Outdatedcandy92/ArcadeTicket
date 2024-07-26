@@ -86,12 +86,12 @@ document.querySelector('form').addEventListener('submit', function(event) {
     const name = document.getElementById('name').value;
     const reward = document.getElementById('rewardlist').value;
     const toggleButtonValue = toggleButton.textContent;
-    const apikey = document.getElementById('api').value;
+
     
     console.log('Toggle Button Value:', toggleButtonValue);
     console.log('Shop Url:', name);
     console.log('Reward:', reward);
-    console.log('API Key:', apikey);
+
 
 
     if (toggleButtonValue === 'Automatic') {
@@ -103,10 +103,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
         if (reward !== '') {
             localStorage.setItem('Reward', reward);
         }
-        if (apikey !== '') {
-            localStorage.setItem('APIKey', apikey);
-        }
-    
+
     
 
     } else {
@@ -118,10 +115,7 @@ document.querySelector('form').addEventListener('submit', function(event) {
         if (reward !== '') {
             localStorage.setItem('Reward', reward);
         }
-        if (apikey !== '') {
-            localStorage.setItem('APIKey', apikey);
-        }
-    
+
 
     }
 

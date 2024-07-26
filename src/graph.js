@@ -1,12 +1,15 @@
 
 function fetchData() {
-    const url = 'http://hackhour.hackclub.com/api/history/U079HV9PTC7';
+    const slack = localStorage.getItem('slack');
+    const api = localStorage.getItem('api');
+    const url = `https://cors-proxy-inky.vercel.app/hackhour.hackclub.com/api/history/${slack}`;
     //const url = './data.json';
-    const api = localStorage.getItem('APIKey');
+   
 
     return fetch(url, {
         method: 'GET',
         headers: {
+            'origin': 'outdatedcandy92.github.io',
             'Authorization': `Bearer ${api}`
         }
     })
@@ -421,12 +424,26 @@ function toggleGraph() {
 }
 
 
+function start() {
+    const api = localStorage.getItem('api');
+    const slack = localStorage.getItem('slack');
+
+    if (api && slack) {
+        toggleGraph();
+    } else {
+        console.log('API Key or Slack not found');
+        Swal.fire({
+            title: "Error",
+            text: "No API Key or Slack ID found",
+            icon: "error"
+        });
+    }
+}
+
+start();
 
 
 
-
-
-toggleGraph();
 
 
 

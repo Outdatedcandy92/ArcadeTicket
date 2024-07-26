@@ -51,8 +51,11 @@ async function RewardDetails(REWARD) {
 
 async function UserTicket() {
     try {
-        const proxyUrl = 'https://corsproxy.io/?';
-        const url = localStorage.getItem('ShopUrl');
+        const proxyUrl = 'https://cors-proxy-inky.vercel.app/';
+        let url = localStorage.getItem('ShopUrl');
+        console.log('Shop Url:', url);
+        url = url.replace('https://', '');
+        
 
         const response = await fetch(proxyUrl+url);
         if (!response.ok) {
