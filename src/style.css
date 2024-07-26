@@ -10,13 +10,14 @@
 
 body {
     background-color: #FAEFD6;
-    
+
 }
+
 body {
     text-align: center;
     align-items: center;
     height: 100vh;
-    margin: 0; 
+    margin: 0;
     font-family: "Gaegu", sans-serif;
     max-height: 100vh;
     overflow: hidden;
@@ -24,172 +25,185 @@ body {
 
 
 .css-6ma7d6:hover {
-transform: scale(1.1);
+    transform: scale(1.1);
 }
+
 .css-6ma7d6 {
-box-sizing: border-box;
-margin: 0px;
-width: 300px;
-min-width: 0px;
-display: flex;
-background: rgb(9, 175, 180);
-border-radius: 10px;
-flex-direction: column;
--moz-box-pack: justify;
-justify-content: space-between;
-padding: 20px;
-position: relative;
-transform: rotate(4.22705deg);
-transition-duration: 0.5s;
+    box-sizing: border-box;
+    margin: 0px;
+    width: 300px;
+    min-width: 0px;
+    display: flex;
+    background: rgb(9, 175, 180);
+    border-radius: 10px;
+    flex-direction: column;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    padding: 20px;
+    position: relative;
+    transform: rotate(4.22705deg);
+    transition-duration: 0.5s;
 }
+
 * {
-box-sizing: border-box;
+    box-sizing: border-box;
 }
+
 .css-1aty9dc {
-box-sizing: border-box;
-margin: 0;
-min-width: 0;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-display: flex;
--webkit-flex-direction: column;
--ms-flex-direction: column;
-flex-direction: column;
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
+
 .css-1hn3wb5 {
-box-sizing: border-box;
-margin: 0;
-min-width: 0;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-display: flex;
-background: #FFEEC6;
-height: 250px;
--webkit-box-pack: center;
--ms-flex-pack: center;
--webkit-justify-content: center;
-justify-content: center;
--webkit-align-items: center;
--webkit-box-align: center;
--ms-flex-align: center;
-align-items: center;
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    background: #FFEEC6;
+    height: 250px;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
+
 .css-hso7i9 {
-height: auto;
-max-width: 280px;
-max-height: 250px;
+    height: auto;
+    max-width: 280px;
+    max-height: 250px;
 }
+
 .css-ydmcwf {
-box-sizing: border-box;
-margin: 0;
-margin-top: 0px;
-margin-bottom: 0px;
-min-width: 0;
-font-weight: 700;
-line-height: 1.125;
-margin-top: 16px;
-margin-bottom: 16px;
-letter-spacing: 0.009em;
-font-size: 32px;
-color: #FFEEC6;
-margin-bottom: 0;
+    box-sizing: border-box;
+    margin: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    min-width: 0;
+    font-weight: 700;
+    line-height: 1.125;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    letter-spacing: 0.009em;
+    font-size: 32px;
+    color: #FFEEC6;
+    margin-bottom: 0;
 }
+
 .css-1nucw2u {
-font-family: "Gaegu", sans-serif;
-box-sizing: border-box;
-margin: 0;
-margin-top: 0px;
-min-width: 0;
-margin-top: 16px;
-font-size: 30px;
-font-weight: 400;
-letter-spacing: 0.009em;
-line-height: 1.25;
-color: #FFEEC6;
+    font-family: "Gaegu", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    margin-top: 0px;
+    min-width: 0;
+    margin-top: 16px;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: 0.009em;
+    line-height: 1.25;
+    color: #FFEEC6;
 }
+
 .css-1qi5pf0 {
-box-sizing: border-box;
-margin: 0;
-margin-bottom: 0px;
-min-width: 0;
-color: var(--theme-ui-colors-muted);
-font-weight: medium;
-letter-spacing: 0.009em;
-line-height: 1.375;
-color: #FFEEC6;
-margin-bottom: 8px;
-overflow-wrap: break-word;
+    box-sizing: border-box;
+    margin: 0;
+    margin-bottom: 0px;
+    min-width: 0;
+    color: var(--theme-ui-colors-muted);
+    font-weight: medium;
+    letter-spacing: 0.009em;
+    line-height: 1.375;
+    color: #FFEEC6;
+    margin-bottom: 8px;
+    overflow-wrap: break-word;
 }
+
 .css-1aty9dc {
-box-sizing: border-box;
-margin: 0;
-min-width: 0;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-display: flex;
--webkit-flex-direction: column;
--ms-flex-direction: column;
-flex-direction: column;
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
 }
+
 .css-chkslf {
-box-sizing: border-box;
-margin: 0;
-margin-top: 0px;
-margin-bottom: 0px;
-min-width: 0;
-color: var(--theme-ui-colors-muted);
-font-weight: medium;
-letter-spacing: 0.009em;
-line-height: 1.375;
-color: #FFEEC6;
-margin-top: 0;
-margin-bottom: 8px;
+    box-sizing: border-box;
+    margin: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    min-width: 0;
+    color: var(--theme-ui-colors-muted);
+    font-weight: medium;
+    letter-spacing: 0.009em;
+    line-height: 1.375;
+    color: #FFEEC6;
+    margin-top: 0;
+    margin-bottom: 8px;
 }
+
 .css-s86h58 {
-box-sizing: border-box;
-margin: 0;
-min-width: 0;
-display: -webkit-box;
-display: -webkit-flex;
-display: -ms-flexbox;
-display: flex;
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
 }
+
 .css-18rrdl {
-box-sizing: border-box;
-margin: 16px 0px;
-min-width: 0px;
-font-weight: 700;
-line-height: 1.125;
-letter-spacing: 0.009em;
-font-size: 32px;
-background: rgb(255, 140, 55);
-padding-left: 20px;
-padding-right: 20px;
-color: rgb(255, 238, 198);
-position: absolute;
-top: -10px;
-right: -12px;
-transform: rotate(8.75207deg);
+    box-sizing: border-box;
+    margin: 16px 0px;
+    min-width: 0px;
+    font-weight: 700;
+    line-height: 1.125;
+    letter-spacing: 0.009em;
+    font-size: 32px;
+    background: rgb(255, 140, 55);
+    padding-left: 20px;
+    padding-right: 20px;
+    color: rgb(255, 238, 198);
+    position: absolute;
+    top: -10px;
+    right: -12px;
+    transform: rotate(8.75207deg);
 }
+
 .css-1ahzmgp {
-box-sizing: border-box;
-margin: 0;
-margin-top: 0px;
-margin-bottom: 0px;
-min-width: 0;
-font-weight: 700;
-line-height: 1.125;
-margin-top: 16px;
-margin-bottom: 16px;
-letter-spacing: 0.009em;
-font-size: 32px;
-position: absolute;
-bottom: -25px;
-right: -10px;
-color: #FFEEC6;
+    box-sizing: border-box;
+    margin: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    min-width: 0;
+    font-weight: 700;
+    line-height: 1.125;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    letter-spacing: 0.009em;
+    font-size: 32px;
+    position: absolute;
+    bottom: -25px;
+    right: -10px;
+    color: #FFEEC6;
 }
 
 /* Ensure the progress bar container is centered and not affected by other elements */
@@ -197,105 +211,124 @@ color: #FFEEC6;
     width: 50%;
     background-color: #09afb4;
     border-radius: 8px;
-    margin: 20vh auto; /* Keeps center alignment */
-    position: relative; /* Adds a positioning context */
+    margin: 20vh auto;
+    /* Keeps center alignment */
+    position: relative;
+    /* Adds a positioning context */
 }
 
 .progress-bar {
     height: 20px;
     background-color: #ee4076;
-    width: 0%; /* Initial width of the progress bar */
+    width: 0%;
+    /* Initial width of the progress bar */
     transition: width 0.4s ease-in-out;
     border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px; /* Smooth transition for width changes */
+    border-bottom-left-radius: 8px;
+    /* Smooth transition for width changes */
 }
 
 /* Align .thething to the right */
 .thething {
-    position: absolute; /* Adjust this based on your layout needs */
+    position: absolute;
+    /* Adjust this based on your layout needs */
     right: 10vw;
     transform: scale(0.7);
-    margin-top: -350px; /* Aligns to the right */
+    margin-top: -350px;
+    /* Aligns to the right */
     /* Ensure it's positioned within a relative container for proper alignment */
 }
 
-.container{
+.container {
     margin-top: 200px;
 }
-.bottomhead{
+
+.bottomhead {
     margin-top: -50px;
 }
+
 #setting {
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 1000;
 }
+
 #gearButton {
     background: transparent;
     border: none;
-    font-size: 24px; /* Adjust size as needed */
+    font-size: 24px;
+    /* Adjust size as needed */
     cursor: pointer;
 }
+
 /* Optional: Add hover effect */
 #gearButton:hover {
-    color: #666; /* Change color on hover */
+    color: #666;
+    /* Change color on hover */
 }
 
-#SetBtn{
+#SetBtn {
     position: absolute;
-    top: 0; 
+    top: 0;
     right: 0;
     background-color: transparent;
     font-size: 30px;
     border: none;
 
 }
-#SetBtn:hover{
+
+#SetBtn:hover {
     position: absolute;
-    top: 0; 
+    top: 0;
     right: 0;
     background-color: transparent;
     font-size: 30px;
     border: none;
-    transform: scale(1.3); /* Add scale on hover */
-    transition: transform 0.5s ease-in-out; /* Add transition effect */
+    transform: scale(1.3);
+    /* Add scale on hover */
+    transition: transform 0.5s ease-in-out;
+    /* Add transition effect */
 
 }
 
-    
-    .graph{
-        position: absolute;
-        top: 0; 
-        left: 0;
-        background-color: transparent;
-        font-size: 30px;
-        border: none;
-    
-    }
-    .graph:hover{
-        position: absolute;
-        top: 0; 
-        left: 0;
-        background-color: transparent;
-        font-size: 30px;
-        border: none;
-        transform: scale(1.3); /* Add scale on hover */
-        transition: transform 0.5s ease-in-out; /* Add transition effect */
-    
-    }
+
+.graph {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    font-size: 30px;
+    border: none;
+
+}
+
+.graph:hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    font-size: 30px;
+    border: none;
+    transform: scale(1.3);
+    /* Add scale on hover */
+    transition: transform 0.5s ease-in-out;
+    /* Add transition effect */
+
+}
 
 
 
 /* SETTINGS CSS */
 
 
-#formset{
+#formset {
     font-family: "gaegu", sans-serif;
     font-size: 20px;
     margin: 200px;
 }
-#name{
+
+#name {
     font-family: "gaegu", sans-serif;
     font-size: 20px;
     margin: 20px;
@@ -305,7 +338,8 @@ color: #FFEEC6;
     border: none;
     border-radius: 10px;
 }
-#rewardlist{
+
+#rewardlist {
     font-family: "gaegu", sans-serif;
     font-size: 20px;
     width: 300px;
@@ -316,13 +350,16 @@ color: #FFEEC6;
     border: none;
     border-radius: 10px;
 }
+
 #rewardlist option {
     font-size: 15px;
-    background-color: #ff8c37; /* This will set the background color */
-    color: white; /* This will set the text color */
+    background-color: #ff8c37;
+    /* This will set the background color */
+    color: white;
+    /* This will set the text color */
 }
 
-#subbtn{
+#subbtn {
     font-family: "gaegu", sans-serif;
     font-size: 20px;
     background-color: #09afb4;
@@ -332,6 +369,7 @@ color: #FFEEC6;
     margin: 20px;
     padding: 10px;
 }
+
 .button-on {
     font-family: "gaegu", sans-serif;
     background-color: green;
@@ -352,9 +390,10 @@ color: #FFEEC6;
     padding: 10px;
 }
 
-#resetBtn{
+#resetBtn {
     bottom: 0;
 }
+
 .Bottom a {
     display: block;
 }

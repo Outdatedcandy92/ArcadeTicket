@@ -1,10 +1,16 @@
+const TotalHour = document.getElementById('HourTotal');
+const hourText = document.getElementById('HourText');
+
+
+
+
 
 function fetchData() {
     const slack = localStorage.getItem('slack');
     const api = localStorage.getItem('api');
     const url = `https://cors-proxy-inky.vercel.app/hackhour.hackclub.com/api/history/${slack}`;
     //const url = './data.json';
-   
+
 
     return fetch(url, {
         method: 'GET',
@@ -295,7 +301,7 @@ function heatmap() {
 
         const colorScale = d3.scaleQuantize()
             .domain([0, d3.max(dataForGraph, d => d.value)])
-            .range(["#0e4429", "#006d32", "#26a641", "#39d353"]); // GitHub-like green color scale
+            .range(["#FFA769", "#FB8B3C", "#FC791B", "#FA6800"]); // GitHub-like green color scale
         const year = new Date().getFullYear();
         const days = d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
 
@@ -321,7 +327,7 @@ function heatmap() {
             .attr("ry", 3) // Sets the y-axis corner radius
             .attr("fill", d => {
                 const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
-                return dataPoint ? colorScale(dataPoint.value) : "#ffa73c";
+                return dataPoint ? colorScale(dataPoint.value) : "#A8A394";
             })
             .on("mouseover", function (event, d) {
                 tooltip.transition()
@@ -386,7 +392,7 @@ function HandleData() {
 
 
         // Sort dataForGraph by day in ascending order
-        const TotalHour = document.getElementById('HourTotal');
+
 
         console.log(dataForGraph);
         const totalElapsedSum = Math.round(dataForGraph.reduce((sum, { totalElapsed }) => sum + totalElapsed, 0));
@@ -395,7 +401,7 @@ function HandleData() {
 
         const today = new Date().toISOString().split('T')[0];
         const todayData = dataForGraph.find(({ day }) => day === today);
-        const hourText = document.getElementById('HourText');
+
         if (todayData) {
             console.log(`Total elapsed hours for today (${today}): ${todayData.totalElapsed.toFixed(2)}`);
             hourText.innerHTML = `Hours Done Today: ${todayData.totalElapsed.toFixed(2)}`;
@@ -437,6 +443,9 @@ function start() {
             text: "No API Key or Slack ID found",
             icon: "error"
         });
+        hourText.innerHTML = "No data available";
+        TotalHour.innerHTML = "No data available";
+
     }
 }
 
