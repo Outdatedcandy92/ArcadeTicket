@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,15 +8,16 @@
     <link rel="stylesheet" href="./src/style.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
+
 <body>
-    
+
     <button id="SetBtn" onclick="window.location.href = 'index.html'">⚙️</button>
     <form id="formset">
         <div>
-            <button id="toggleButton" type="button" class="button-on">Automatic</button>
+            <button id="toggleButton" type="button" class="button-off">Manual</button>
         </div>
         <div>
-            <input type="text" id="name" name="name" placeholder="Enter Shop URL">
+            <input type="text" id="name" name="name" placeholder="Enter Number Of Tickets">
         </div>
         <div>
             <select id="rewardlist" name="rewardlist">
@@ -55,22 +57,24 @@
                 <option value='33'> Prusa</option>
                 <option value='34'> Bambu Lab</option>
                 <option value='35'> iPad</option>
-                <option value='36'> Framework</option>
-                <option value='37'> Quest 3</option>
-                <option value='38'> Framework</option>
-                <option value='39'> MacBook</option>
+                <option value="36"> ThinkPad</option>
+                <option value='37'> Framework</option>
+                <option value='38'> Quest 3</option>
+                <option value='39'> Framework</option>
+                <option value='40'> MacBook</option>
             </select>
         </div>
-        
+
         <button type="submit" id="subbtn">Submit</button>
-        
+
     </form>
     <div class="Bottom">
 
-    <a href="#" id="advanceSettings" onclick="CustomEnd()">Custom End Date</a>
-    <a href="#" id="Decimal" onclick="DecimalVal()">Decimal Points</a>
-    <a href="#"id="resetBtn" onclick="resetLocalStorage()">Having Issues? Reset LocalStorage</a>
+        <a href="#" id="advanceSettings" onclick="CustomEnd()">Custom End Date</a>
+        <a href="#" id="Decimal" onclick="DecimalVal()">Decimal Points</a>
+        <a href="#" id="resetBtn" onclick="resetLocalStorage()">Having Issues? Reset LocalStorage</a>
     </div>
     <script src="./src/settings.js"></script>
 </body>
+
 </html>

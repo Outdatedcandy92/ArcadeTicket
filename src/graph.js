@@ -223,8 +223,8 @@ function LineGraph() {
 
         // Data for the legend
         const legendData = [
-            { name: "Goal", color: color(0) },
-            { name: "Average", color: "red" },
+            { name: `Goal: ${goal}`, color: color(0) },
+            { name: `Average: ${averageElapsed.toFixed(2)}`, color: "red" },
             // Add more legend items as needed
         ];
         // Create a legend group
@@ -301,7 +301,9 @@ function heatmap() {
 
         const colorScale = d3.scaleQuantize()
             .domain([0, d3.max(dataForGraph, d => d.value)])
-            .range(["#FFA769", "#FB8B3C", "#FC791B", "#FA6800"]); // GitHub-like green color scale
+            //#F1641E, #fc9d71,#F3CEBD,#9f897f
+            //.range(["#F1641E", "#fc9d71", "#F3CEBD", "#9f897f"]); 
+            .range(["#FFA769", "#FB8B3C", "#FC791B", "#FA6800"]); 
         const year = new Date().getFullYear();
         const days = d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
 
@@ -324,10 +326,10 @@ function heatmap() {
             .attr("x", d => d3.timeWeek.count(d3.timeYear(d), d) * cellSize)
             .attr("y", d => d.getDay() * cellSize)
             .attr("rx", 3) // Sets the x-axis corner radius
-            .attr("ry", 3) // Sets the y-axis corner radius
+            .attr("stroke", "#6d6c6b").attr("stroke-width", 1).attr("stroke", "#6d6c6b").attr("stroke-width", 1)
             .attr("fill", d => {
                 const dataPoint = dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime());
-                return dataPoint ? colorScale(dataPoint.value) : "#A8A394";
+                return dataPoint ? colorScale(dataPoint.value) : "#fff4da";
             })
             .on("mouseover", function (event, d) {
                 tooltip.transition()

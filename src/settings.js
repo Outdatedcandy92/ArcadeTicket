@@ -1,4 +1,4 @@
-function DecimalVal(){
+function DecimalVal() {
     Swal.fire({
         title: 'Enter Decimal Round Off Value. (Default is 2)',
         input: 'number', // Set the type of input to date
@@ -21,32 +21,32 @@ function DecimalVal(){
             localStorage.setItem('DecimalVal', result.value);
         }
     });
-            
+
 }
 
-function CustomEnd (){
+function CustomEnd() {
     Swal.fire({
-    title: 'Enter End Date',
-    input: 'date', // Set the type of input to date
-    inputAttributes: {
-        autocapitalize: 'off'
-    },
-    showCancelButton: true,
-    confirmButtonText: 'Submit',
-    showLoaderOnConfirm: true,
-    preConfirm: (name) => {
-        // Use the input value
-        console.log('Name entered:', name);
-    },
-    allowOutsideClick: () => !Swal.isLoading()
-}).then((result) => {
-    if (result.isConfirmed) {
-        Swal.fire({
-            title: `The New End Date Is ${result.value}`
-        });
-        localStorage.setItem('EndDate', result.value);
-    }
-});
+        title: 'Enter End Date',
+        input: 'date', // Set the type of input to date
+        inputAttributes: {
+            autocapitalize: 'off'
+        },
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        showLoaderOnConfirm: true,
+        preConfirm: (name) => {
+            // Use the input value
+            console.log('Name entered:', name);
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: `The New End Date Is ${result.value}`
+            });
+            localStorage.setItem('EndDate', result.value);
+        }
+    });
 }
 
 
@@ -62,7 +62,7 @@ function resetLocalStorage() {
 document.addEventListener('DOMContentLoaded', (event) => {
     const toggleButton = document.getElementById('toggleButton');
     const UserInput = document.getElementById('name'); // Assuming 'name' is the ID of your input element
-    let isOn = true; // Initial state of the toggle
+    let isOn = false; // Initial state of the toggle
 
     toggleButton.addEventListener('click', () => {
         isOn = !isOn; // Toggle the state
@@ -81,13 +81,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }
     });
 });
-document.querySelector('form').addEventListener('submit', function(event) {
+document.querySelector('form').addEventListener('submit', function (event) {
     event.preventDefault();
     const name = document.getElementById('name').value;
     const reward = document.getElementById('rewardlist').value;
     const toggleButtonValue = toggleButton.textContent;
 
-    
+
     console.log('Toggle Button Value:', toggleButtonValue);
     console.log('Shop Url:', name);
     console.log('Reward:', reward);
@@ -98,19 +98,19 @@ document.querySelector('form').addEventListener('submit', function(event) {
         localStorage.setItem('Automatic', 'true');
 
         if (name !== '') {
-        localStorage.setItem('ShopUrl', name);
+            localStorage.setItem('ShopUrl', name);
         }
         if (reward !== '') {
             localStorage.setItem('Reward', reward);
         }
 
-    
+
 
     } else {
         localStorage.setItem('Automatic', 'false');
 
         if (name !== '') {
-        localStorage.setItem('Tickets', name);
+            localStorage.setItem('Tickets', name);
         }
         if (reward !== '') {
             localStorage.setItem('Reward', reward);

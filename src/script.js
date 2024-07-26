@@ -2,8 +2,8 @@ const ticketCountElement = document.getElementById('RewardTicket');
 const ImageElement = document.getElementById('RewardImage');
 const NameElement = document.getElementById('RewardName');
 const SubElement = document.getElementById('SubText');
-const Tickets_Left = document.getElementById('TicketLeft');    
-const User_Ticker = document.getElementById('ticketCount');        
+const Tickets_Left = document.getElementById('TicketLeft');
+const User_Ticker = document.getElementById('ticketCount');
 const ProgressBar = document.getElementById('ProgressBar');
 const HourCount = document.getElementById('HoursPerDay');
 
@@ -32,7 +32,7 @@ async function RewardDetails(REWARD) {
         const REWARD_DESCRIPTION = item.description;
         const REWARD_SUBTEXT = item.smallName;
 
-        console.log(REWARD_NAME, REWARD_TICKET, REWARD_IMAGE,REWARD_SUBTEXT, REWARD_DESCRIPTION);
+        console.log(REWARD_NAME, REWARD_TICKET, REWARD_IMAGE, REWARD_SUBTEXT, REWARD_DESCRIPTION);
 
         ticketCountElement.textContent = `${REWARD_TICKET} 🎟️`;
         ImageElement.src = REWARD_IMAGE;
@@ -42,7 +42,7 @@ async function RewardDetails(REWARD) {
         return REWARD_TICKET;
 
 
-            
+
     } catch (error) {
         console.error("Error fetching or parsing rewards.json:", error);
     }
@@ -55,9 +55,9 @@ async function UserTicket() {
         let url = localStorage.getItem('ShopUrl');
         console.log('Shop Url:', url);
         url = url.replace('https://', '');
-        
 
-        const response = await fetch(proxyUrl+url);
+
+        const response = await fetch(proxyUrl + url);
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -69,7 +69,7 @@ async function UserTicket() {
         console.log('Inner Text:', innerText);
 
         return innerText;
-        
+
     } catch (error) {
         console.error("Error fetching user tickets:", error);
     }
@@ -77,14 +77,14 @@ async function UserTicket() {
 
 
 
-function TicketLeft(INSTR){
+function TicketLeft(INSTR) {
 
-    const CURRENT_TICKET = INSTR ; // Set the value of CURRENT_TICKET
+    const CURRENT_TICKET = INSTR; // Set the value of CURRENT_TICKET
     const regex = /\d+/; // Regular expression to match one or more digits
     const match = CURRENT_TICKET.match(regex); // Extract the number from the text
     const number = match ? parseInt(match[0]) : 0; // Convert the matched string to a number
     User_Ticker.textContent = `You Have ${number} 🎟️`;
-    console.log('Ticket Left:',number);
+    console.log('Ticket Left:', number);
 
     return number;
 
@@ -96,16 +96,16 @@ function TicketLeft(INSTR){
 
 
 
-function daysleft(remaning_tickets){
+function daysleft(remaning_tickets) {
     const date1 = new Date();
     const date2 = new Date(EndDate);
     const diffTime = Math.abs(date2 - date1);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-    console.log(diffDays,'Days Left');
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    console.log(diffDays, 'Days Left');
 
     const tick_Num = remaning_tickets / diffDays;
 
-    console.log('Tickets Per Day:',tick_Num);
+    console.log('Tickets Per Day:', tick_Num);
 
     if (tick_Num < 1) {
         const tickperday = tick_Num.toFixed(2);
@@ -130,7 +130,7 @@ async function Display() {
         const rewardIndex = localStorage.getItem('Reward');
         const Mode = localStorage.getItem('Automatic');
         Goal = await RewardDetails(rewardIndex);
-        
+
         if (Mode == 'true') {
             console.log('Automatic Mode');
             const User_ = await UserTicket(); // <- Remove these 2 in manual
@@ -139,15 +139,15 @@ async function Display() {
         else {
             console.log('Manual Mode');
             Numoftickets = localStorage.getItem('Tickets');
-            console.log('Tickets:',Numoftickets);
+            console.log('Tickets:', Numoftickets);
             User_Ticker.textContent = `You Have ${Numoftickets} 🎟️`;
         }
 
-        const RemaningTick = Goal-Numoftickets;
+        const RemaningTick = Goal - Numoftickets;
 
-        console.log('remaning const',RemaningTick);
+        console.log('remaning const', RemaningTick);
 
-        console.log('Remaining Tickets:',RemaningTick);
+        console.log('Remaining Tickets:', RemaningTick);
         if (RemaningTick <= 0) {
             console.log("Remaining tickets: 0 or less");
             ProgressBar.style.width = `100%`;
@@ -158,26 +158,26 @@ async function Display() {
             console.log("Remaining tickets: not 0 or less");
             const hourcount = daysleft(RemaningTick);
             HourCount.textContent = `You Need ${hourcount} 🎟️ Per Day`;
-            localStorage.setItem('Goal',hourcount);
-    
+            localStorage.setItem('Goal', hourcount);
+
             Tickets_Left.textContent = `You Need ${RemaningTick} 🎟️`;
-            const bar_width = (Numoftickets/Goal)*100;
-            console.log('barwidth',bar_width);
+            const bar_width = (Numoftickets / Goal) * 100;
+            console.log('barwidth', bar_width);
             ProgressBar.style.width = `${bar_width}%`;
 
         }
 
 
 
-        
-        
+
+
     } catch (error) {
-        
+
     }
-    
+
 }
 
-function ConfExpo(){
+function ConfExpo() {
     confetti({
         particleCount: 400,
         spread: 200,
@@ -185,7 +185,7 @@ function ConfExpo(){
     });
 }
 
-function Start(){
+function Start() {
     //add stuff for when localstorage is empty
     if (localStorage.getItem('Automatic') && localStorage.getItem('Reward')) {
         Display();
@@ -197,19 +197,19 @@ function Start(){
             text: 'Items do not exist in local storage',
             icon: 'error',
             confirmButtonText: 'Settings'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = 'settings.html';
             }
-          })
+        })
     }
 }
 
-function PreStart(){
-    if (localStorage.getItem('EndDate')){
+function PreStart() {
+    if (localStorage.getItem('EndDate')) {
         EndDate = localStorage.getItem('EndDate');
     }
-    if (localStorage.getItem('Round')){
+    if (localStorage.getItem('Round')) {
         ROUND = localStorage.getItem('Round');
     }
 
