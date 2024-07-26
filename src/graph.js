@@ -10,12 +10,13 @@ function fetchData() {
     const api = localStorage.getItem('api');
     const url = `https://cors-proxy-inky.vercel.app/hackhour.hackclub.com/api/history/${slack}`;
     //const url = './data.json';
-
+    console.log(url);
+    console.log(api,slack);
 
     return fetch(url, {
         method: 'GET',
         headers: {
-            'origin': 'outdatedcandy92.github.io',
+            'Origin': 'outdatedcandy92.github.io',
             'Authorization': `Bearer ${api}`
         }
     })
