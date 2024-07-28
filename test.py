@@ -1,7 +1,7 @@
 import requests
 
 # Directly use the target URL without the scheme
-proxy_url = "https://cors-proxy-gray.vercel.app/"
+proxy_url = "https://cors-proxy-two-olive.vercel.app/jsonplaceholder.typicode.com/todos/1"
 
 # Construct the full URL
 url = f"{proxy_url}"
