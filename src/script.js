@@ -6,7 +6,7 @@ const Tickets_Left = document.getElementById('TicketLeft');
 const User_Ticker = document.getElementById('ticketCount');
 const ProgressBar = document.getElementById('ProgressBar');
 const HourCount = document.getElementById('HoursPerDay');
-const ToolTip = document.getElementById('ToolTip');
+const ToolTip = document.getElementById('tooltip-text');
 
 
 let ROUND = 2;
@@ -165,7 +165,7 @@ async function Display() {
             const bar_width = Math.round((Numoftickets / Goal) * 100);
             console.log('barwidth', bar_width);
             ProgressBar.style.width = `${bar_width}%`;
-            ToolTip.textContent = `${bar_width}% Complete 🎉`;
+            ToolTip.textContent = `${bar_width}% Complete`;
 
         }
 
@@ -222,3 +222,25 @@ PreStart();
 Start();
 
 //Display();
+document.addEventListener('DOMContentLoaded', () => {
+    const progressContainer = document.querySelector('.progress-container');
+    const tooltipText = document.querySelector('.tooltip-text');
+
+    progressContainer.addEventListener('mousemove', (e) => {
+        const rect = progressContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        tooltipText.style.left = `${x - 40}px`; // Adjust the offset as needed
+        tooltipText.style.top = `${y - 80}px`; // Adjust the offset as needed
+    });
+
+    progressContainer.addEventListener('mouseenter', () => {
+        tooltipText.style.visibility = 'visible';
+        tooltipText.style.opacity = '';
+    });
+
+    progressContainer.addEventListener('mouseleave', () => {
+        tooltipText.style.visibility = 'hidden';
+        tooltipText.style.opacity = '0';
+    });
+});

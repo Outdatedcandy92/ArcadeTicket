@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Counter</title>
     <link rel="stylesheet" href="src/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -21,9 +22,9 @@
         <div class="tophead">
             <h1 id="ticketCount"></h1>
         </div>
-        <div class="progress-container">
+        <div class="progress-container" id="ProgressCont">
             <div class="progress-bar" id="ProgressBar"></div>
-            <span class="tooltip-text" id="ToolTip"></span>
+            <span class="tooltip-text" id="tooltip-text">Tooltip text</span>
         </div>
     </div>
 
@@ -79,6 +80,7 @@
     </div>
     <h1 id="HoursPerDay">Hour needed per day</h1>
     <script src="./src/script.js"></script>
+
 </body>
 
 </html>
