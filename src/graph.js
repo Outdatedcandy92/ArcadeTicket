@@ -10,8 +10,8 @@ function fetchData() {
     const api = localStorage.getItem('api');
     const url = `https://cors-proxy-inky.vercel.app/hackhour.hackclub.com/api/history/${slack}`;
     //const url = './data.json';
-    console.log(url);
-    console.log(api,slack);
+    //console.log(url);
+    //console.log(api,slack);
 
     return fetch(url, {
         method: 'GET',

@@ -51,13 +51,14 @@ async function RewardDetails(REWARD) {
 
 async function UserTicket() {
     try {
-        const proxyUrl = 'https://cors-proxy-inky.vercel.app/';
+        const proxyUrl = 'https://cors-proxy-9kq8is9rk-dsadsas-projects-293be366.vercel.app/';
         let url = localStorage.getItem('ShopUrl');
-        console.log('Shop Url:', url);
         url = url.replace('https://', '');
+        console.log('Shop Url:', url);
 
-
-        const response = await fetch(proxyUrl + url);
+        console.log(proxyUrl+url);
+        const response = await fetch(proxyUrl);
+        
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
