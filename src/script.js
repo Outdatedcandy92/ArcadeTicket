@@ -6,6 +6,7 @@ const Tickets_Left = document.getElementById('TicketLeft');
 const User_Ticker = document.getElementById('ticketCount');
 const ProgressBar = document.getElementById('ProgressBar');
 const HourCount = document.getElementById('HoursPerDay');
+const ToolTip = document.getElementById('ToolTip');
 
 
 let ROUND = 2;
@@ -51,10 +52,8 @@ async function RewardDetails(REWARD) {
 
 async function UserTicket() {
     try {
-        const proxyUrl = 'https://cors-proxy-9kq8is9rk-dsadsas-projects-293be366.vercel.app/';
-        let url = localStorage.getItem('ShopUrl');
-        url = url.replace('https://', '');
-        console.log('Shop Url:', url);
+        const proxyUrl = 'https://corsproxy.io/?';
+        const url = localStorage.getItem('ShopUrl');
 
         console.log(proxyUrl+url);
         const response = await fetch(proxyUrl);
@@ -153,6 +152,7 @@ async function Display() {
             console.log("Remaining tickets: 0 or less");
             ProgressBar.style.width = `100%`;
             Tickets_Left.textContent = `You Have Completed The Goal 🎉`;
+            ToolTip.style.display = 'none';
             HourCount.textContent = ``;
             ConfExpo();
         } else {
@@ -162,9 +162,10 @@ async function Display() {
             localStorage.setItem('Goal', hourcount);
 
             Tickets_Left.textContent = `You Need ${RemaningTick} 🎟️`;
-            const bar_width = (Numoftickets / Goal) * 100;
+            const bar_width = Math.round((Numoftickets / Goal) * 100);
             console.log('barwidth', bar_width);
             ProgressBar.style.width = `${bar_width}%`;
+            ToolTip.textContent = `${bar_width}% Complete 🎉`;
 
         }
 

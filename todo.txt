@@ -1,0 +1,8 @@
+- add a precentage tooltip (DONE)
+ - MAKE THE TOOLTIP RESPONSIVE?
+
+- add easter egg maybey?
+
+- fix for mobile ui
+
+- FIX THE PERCENTAGE BAR OVERLAP 
