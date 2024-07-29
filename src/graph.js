@@ -240,21 +240,21 @@ function LineGraph() {
         // Add legend items
         legendData.forEach((d, i) => {
             const legendItem = legend.append("g")
-            .attr("class", "legend-item")
-            .attr("transform", `translate(0, ${i * 20})`); // Adjust the spacing between legend items
+                .attr("class", "legend-item")
+                .attr("transform", `translate(0, ${i * 20})`); // Adjust the spacing between legend items
 
             // Add legend color box
             legendItem.append("rect")
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", d.color);
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", d.color);
 
             // Add legend text
             legendItem.append("text")
-            .attr("x", 24)
-            .attr("y", 9)
-            .attr("dy", "0.35em")
-            .text(d.name);
+                .attr("x", 24)
+                .attr("y", 9)
+                .attr("dy", "0.35em")
+                .text(d.name);
         });
 
     });
@@ -308,7 +308,7 @@ function heatmap() {
             .domain([0, d3.max(dataForGraph, d => d.value)])
             //#F1641E, #fc9d71,#F3CEBD,#9f897f
             //.range(["#F1641E", "#fc9d71", "#F3CEBD", "#9f897f"]); 
-            .range(["#FFA769", "#FB8B3C", "#FC791B", "#FA6800"]); 
+            .range(["#FFA769", "#FB8B3C", "#FC791B", "#FA6800"]);
         const year = new Date().getFullYear();
         const days = d3.timeDays(new Date(year, 0, 1), new Date(year + 1, 0, 1));
 
@@ -356,25 +356,41 @@ function heatmap() {
                     .duration(500)
                     .style("opacity", 0);
             });
-            const legendColors = ["#FFA769", "#FB8B3C", "#FC791B", "#FA6800"];
-        
-            // Append a group element for the legend
-            const legend = svg.append("g")
+        const legendColors = ["#FFA769", "#FB8B3C", "#FC791B", "#FA6800"];
+
+        // Append a group element for the legend
+        const legend = svg.append("g")
             .attr("class", "legend")
             .attr("transform", `translate(${width - 150}, ${height - 50})`); // Adjust the position as needed
-        
+
         // Create legend rectangles and text
         legendColors.forEach((color, i) => {
             legend.append("rect")
                 .attr("x", i * 20) // Adjust the spacing as needed
-                .attr("y", 0)
-                .attr("width", 18)
-                .attr("height", 18)
-                .style("fill", color);
+                .attr("y", 10)
+                .attr("width", 15)
+                .attr("height", 15)
+                .style("fill", color)
+                .style("stroke", "#6d6c6b")
+                .attr("rx", 3);
+
+            if (i === 0) {
+                legend.append("text")
+                    .attr("x", i - 30) // Adjust the spacing as needed
+                    .attr("y", 20)
+                    .text("Less");
+            }
+
+            if (i === legendColors.length - 1) {
+                legend.append("text")
+                    .attr("x", i * 20 + 20) // Adjust the spacing as needed
+                    .attr("y", 20)
+                    .text("More");
+            }
         });
 
 
-            
+
 
     })
         .catch(error => {
@@ -445,7 +461,7 @@ function toggleGraph() {
     console.log('Graph Option:', graphOption);
     if (graphOption === 'heatmap') {
         isHeatmapActive = false;
-    } else { 
+    } else {
         isHeatmapActive = true;
     }
     var existingSVG = d3.select("body").select("svg");
@@ -478,6 +494,7 @@ function start() {
         });
         hourText.innerHTML = "No data available";
         TotalHour.innerHTML = "No data available";
+        inputapi();
 
     }
 }
@@ -490,7 +507,7 @@ function inputapi() {
     Swal.fire({
         title: 'API Key and Slack ID',
         html: `
-            <input id="api-input" class="swal2-input" placeholder="Enter API key" autocapitalize="off">
+            <input id="api-input" class="swal2-input" placeholder="Enter API key" autocapitalize="off" >
             <input id="slack-input" class="swal2-input" placeholder="Enter Slack ID" autocapitalize="off">
             <label for="graphoption" style="display: block; margin-top: 10px; font-size: 30px; font-weight: bold;">Default Graph Type</label>
             <select id="graphoption" class="swal2-select">
@@ -499,15 +516,16 @@ function inputapi() {
             </select>
         `,
         showCancelButton: true,
-        confirmButtonText: 'Submit',
+        confirmButtonText: 'Update',
         showLoaderOnConfirm: true,
         preConfirm: () => {
             const apiKey = document.getElementById('api-input').value;
             const slackId = document.getElementById('slack-input').value;
             const graphOption = document.getElementById('graphoption').value;
-            
-            
-            if (!localStorage.get('api') && !localStorage.get('slack')) {
+            const api = localStorage.getItem('api');
+            const slack = localStorage.getItem('slack');
+
+            if (!api && !slack) {
                 if (!apiKey) {
                     Swal.showValidationMessage('Please enter API key');
                 } else if (!slackId) {
@@ -525,6 +543,7 @@ function inputapi() {
                     if (graphOption) {
                         localStorage.setItem('graphOption', graphOption);
                     }
+
                 }
             } else {
                 console.log('API Key:', apiKey);
@@ -539,7 +558,11 @@ function inputapi() {
                 if (graphOption) {
                     localStorage.setItem('graphOption', graphOption);
                 }
+
             }
+
+            location.reload();
+
         },
         allowOutsideClick: () => !Swal.isLoading()
     });

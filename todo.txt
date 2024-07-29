@@ -1,20 +1,28 @@
 
-- add easter egg maybey?
+- add easter egg maybey? (confetti is enough)
 
-- fix for mobile ui
+- fix for mobile ui ( i give up)
 
-- FIX THE PERCENTAGE BAR OVERLAP 
+- FIX THE PERCENTAGE BAR OVERLAP (i give up)
 
 
 
--MAKE THE THING RESPONSIVE
+-MAKE THE THING RESPONSIVE ( i give up)
 
 
 
 - HEATMAP
- - ROUND OFF VALUES
- - LEGEND
- - SET A DEFAULT OPTION
- - Refresh page after submission
- - Update values
- -mabey censor api key
+ - ROUND OFF VALUES (done)
+ - LEGEND (done)
+ - SET A DEFAULT OPTION (done)
+ - Refresh page after submission (done)
+ - Update values (done)
+ - maybe censor api key (decided not to)
+
+
+
+
+ -CREATE A THING WHICH AUTOMATICALLY UPDATES SHOP 
+    1. fetch the shop items
+    2. parse and format
+    3. add them in html

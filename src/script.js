@@ -55,9 +55,9 @@ async function UserTicket() {
         const proxyUrl = 'https://corsproxy.io/?';
         const url = localStorage.getItem('ShopUrl');
 
-        console.log(proxyUrl+url);
-        const response = await fetch(proxyUrl);
-        
+        console.log(proxyUrl + url);
+        const response = await fetch(proxyUrl+url);
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
@@ -188,25 +188,29 @@ function ConfExpo() {
 }
 
 function Start() {
-    //add stuff for when localstorage is empty
+    // Add stuff for when localStorage is empty
     if (localStorage.getItem('Automatic') && localStorage.getItem('Reward')) {
         Display();
     } else {
-
         console.log('Automatic or Reward does not exist in localStorage');
         Swal.fire({
             title: 'Error!',
             text: 'Items do not exist in local storage',
             icon: 'error',
-            confirmButtonText: 'Settings'
+            confirmButtonText: 'Settings',
+            allowOutsideClick: () => {
+
+                console.log('User clicked outside the modal');
+
+                window.location.href = 'settings.html';
+            }
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = 'settings.html';
             }
-        })
+        });
     }
 }
-
 function PreStart() {
     if (localStorage.getItem('EndDate')) {
         EndDate = localStorage.getItem('EndDate');
@@ -236,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     progressContainer.addEventListener('mouseenter', () => {
         tooltipText.style.visibility = 'visible';
-        tooltipText.style.opacity = '';
+        tooltipText.style.opacity = '1';
     });
 
     progressContainer.addEventListener('mouseleave', () => {

@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             toggleButton.textContent = 'Manual';
             toggleButton.classList.remove('button-on');
             toggleButton.classList.add('button-off');
-            UserInput.placeholder = 'Enter Number Of Tickets You Have'; // Change placeholder for Manual mode
+            UserInput.placeholder = 'Enter Number Of Tickets';
         }
     });
 });
