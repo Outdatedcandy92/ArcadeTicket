@@ -4,7 +4,7 @@
 A website which shows your current tickets, how many more you need for a set goal, and how many hours to contribute daily.
 Visit [Here](https://outdatedcandy92.github.io/ArcadeTicket/) 
 
-![demo](https://github.com/user-attachments/assets/75e46894-4337-419b-ac49-60a23f0b0c51)
+https://github.com/user-attachments/assets/58f6a733-bab0-41d9-9fcd-253b758be065
 
 
 ## NEW FEATURE!!
