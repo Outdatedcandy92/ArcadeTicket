@@ -341,7 +341,7 @@ function heatmap() {
                     .duration(200)
                     .style("opacity", .9);
 
-                tooltip.html("Date: " + d.toDateString() + "<br/>Elapsed: " + (dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime()) || { value: 0 }).value)
+                tooltip.html("Date: " + d.toDateString() + "<br/>Elapsed: " + (dataForGraph.find(p => d3.timeDay(p.day).getTime() === d.getTime()) || { value: 0 }).value.toFixed(2))
                     .style("left", (event.pageX + 10) + "px")
                     .style("top", (event.pageY - 40) + "px");
             })
@@ -438,9 +438,16 @@ function HandleData() {
     });
 }
 
-let isHeatmapActive = true;
+let isHeatmapActive;
 
 function toggleGraph() {
+    const graphOption = localStorage.getItem('graphOption');
+    console.log('Graph Option:', graphOption);
+    if (graphOption === 'heatmap') {
+        isHeatmapActive = false;
+    } else { 
+        isHeatmapActive = true;
+    }
     var existingSVG = d3.select("body").select("svg");
     HandleData();
     if (!existingSVG.empty()) {
@@ -477,9 +484,63 @@ function start() {
 
 start();
 
+// INPUT FUNCTION
 
-
-
-
-
-
+function inputapi() {
+    Swal.fire({
+        title: 'API Key and Slack ID',
+        html: `
+            <input id="api-input" class="swal2-input" placeholder="Enter API key" autocapitalize="off">
+            <input id="slack-input" class="swal2-input" placeholder="Enter Slack ID" autocapitalize="off">
+            <label for="graphoption" style="display: block; margin-top: 10px; font-size: 30px; font-weight: bold;">Default Graph Type</label>
+            <select id="graphoption" class="swal2-select">
+                <option value="line">Line Graph</option>
+                <option value="heatmap">Heatmap</option>
+            </select>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Submit',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            const apiKey = document.getElementById('api-input').value;
+            const slackId = document.getElementById('slack-input').value;
+            const graphOption = document.getElementById('graphoption').value;
+            
+            
+            if (!localStorage.get('api') && !localStorage.get('slack')) {
+                if (!apiKey) {
+                    Swal.showValidationMessage('Please enter API key');
+                } else if (!slackId) {
+                    Swal.showValidationMessage('Please enter Slack ID');
+                } else {
+                    console.log('API Key:', apiKey);
+                    console.log('Slack ID:', slackId);
+                    console.log('Graph Option:', graphOption);
+                    if (apiKey) {
+                        localStorage.setItem('api', apiKey);
+                    }
+                    if (slackId) {
+                        localStorage.setItem('slack', slackId);
+                    }
+                    if (graphOption) {
+                        localStorage.setItem('graphOption', graphOption);
+                    }
+                }
+            } else {
+                console.log('API Key:', apiKey);
+                console.log('Slack ID:', slackId);
+                console.log('Graph Option:', graphOption);
+                if (apiKey) {
+                    localStorage.setItem('api', apiKey);
+                }
+                if (slackId) {
+                    localStorage.setItem('slack', slackId);
+                }
+                if (graphOption) {
+                    localStorage.setItem('graphOption', graphOption);
+                }
+            }
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    });
+}

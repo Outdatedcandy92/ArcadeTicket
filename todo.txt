@@ -8,3 +8,13 @@
 
 
 -MAKE THE THING RESPONSIVE
+
+
+
+- HEATMAP
+ - ROUND OFF VALUES
+ - LEGEND
+ - SET A DEFAULT OPTION
+ - Refresh page after submission
+ - Update values
+ -mabey censor api key

@@ -40,6 +40,7 @@
       left: 50%;
       transform: translateX(-50%);
     }
+    
   </style>
 </head>
 
@@ -58,47 +59,7 @@
   <h1 id="HourText"></h1>
 
   <script src="./src/graph.js"></script>
-  <script>
-    function inputapi() {
-      Swal.fire({
-        title: 'API Key',
-        input: 'text',
-        inputPlaceholder: 'Enter API key',
-        inputAttributes: {
-          autocapitalize: 'off'
-        },
-        showCancelButton: true,
-        confirmButtonText: 'Submit',
-        showLoaderOnConfirm: true,
-        preConfirm: (input1) => {
-          Swal.fire({
-            title: 'slack ID',
-            input: 'text',
-            inputPlaceholder: 'Enter Slack ID',
-            inputAttributes: {
-              autocapitalize: 'off'
-            },
-            showCancelButton: true,
-            confirmButtonText: 'Submit',
-            showLoaderOnConfirm: true,
-            preConfirm: (input2) => {
-              console.log('Input 1:', input1);
-              console.log('Input 2:', input2);
-              localStorage.setItem('api', input1);
-              localStorage.setItem('slack', input2);
 
-            },
-            allowOutsideClick: () => !Swal.isLoading()
-          });
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-      });
-
-    }
-  </script>
-
-  <a onclick="toggleGraph();" style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);">(switch
-    type)</a>
 
 
 
